@@ -1,4 +1,5 @@
 import React from 'react'
+import CardEmprego from './Trabalhador/CardEmprego'
 
 export class AppContainer extends React.Component {
 	constructor(props) {
@@ -7,7 +8,7 @@ export class AppContainer extends React.Component {
 
 	render() {
 		return <div>
-			
+			<CardEmprego />
 		</div>
 	}
 }
