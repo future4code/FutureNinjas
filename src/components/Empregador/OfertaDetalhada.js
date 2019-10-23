@@ -41,6 +41,8 @@ class OfertaDetalhada extends React.Component {
 
 	render(){
 
+
+
 		return(
 			<MainCardStyled>
 				<CardHeader
@@ -66,7 +68,7 @@ class OfertaDetalhada extends React.Component {
 							/>
 							<Divider />
 							<CardContent>
-								<Typography variant='h6' align='center'>{this.props.jobSelected.value.toFixed(2)}</Typography>
+								<Typography variant='h6' align='center'>{Number(this.props.jobSelected.value).toFixed(2)}</Typography>
 							</CardContent>
 						</TopSectionCard>
 
@@ -76,7 +78,7 @@ class OfertaDetalhada extends React.Component {
 							/>
 							<Divider />
 							<CardContent>
-								<Typography variant='h6' align='center'>{this.props.jobSelected.dueDate.toLocaleString()}</Typography>
+								<Typography variant='h6' align='center'>{new Date(this.props.jobSelected.dueDate).toLocaleDateString()}</Typography>
 							</CardContent>
 						</TopSectionCard>
 					</TopSectionDiv>

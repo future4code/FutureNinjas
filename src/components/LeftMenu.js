@@ -9,7 +9,8 @@ const MenuContainer = styled.div`
     flex-direction:column;
     align-items:center;
 	width: 20%;
-    border: 5px solid #8762D1;
+    border-right: 1px solid #494949;
+	box-shadow:0 1px 5px #494949;
 `
 
 const TitleMenu = styled.h3`
@@ -33,6 +34,7 @@ const ItensMenu = styled(Typography)`
     font-weight:bold;
     text-align:start;
     margin:5px 0; 
+	cursor:pointer;
 `
 
 
@@ -55,16 +57,17 @@ export class LeftMenu extends React.Component {
 	}
 
 	openJobDetail = (id) => {
-		this.props.saveToRender({render: id})
+		this.props.saveToRender({jobSelected: id})
 	}
 
 	render() {
-		console.log(this.state.jobs)
 		const listJobs = this.state.jobs.map((job, id) => {
 
 			let totalTakens = 0
 			if(job.taken===true){
 				totalTakens +=1
+			}else{
+				totalTakens = '0'
 			}
 			return (
 				<BadgeMenu key={id} badgeContent={totalTakens} color="primary">
