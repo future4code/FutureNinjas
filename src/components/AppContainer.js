@@ -1,4 +1,5 @@
 import React from 'react'
+import OfertarVaga from './OfertarVaga/OfertarVaga'
 import { TelaInicial } from './TelaInicial';
 import CardEmprego from './Trabalhador/CardEmprego'
 
@@ -20,3 +21,4 @@ export class AppContainer extends React.Component {
 
 	}
 }
+export default AppContainer
