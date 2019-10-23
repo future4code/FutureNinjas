@@ -6,9 +6,8 @@ import Typography from '@material-ui/core/Typography';
 const MenuContainer = styled.div`
     display:flex;
     flex-direction:column;
-    flex-grow:1;
     align-items:center;
-    width:20%;
+	width: 20%;
     border: 5px solid #8762D1;
 `
 
@@ -65,3 +64,6 @@ export class LeftMenu extends React.Component {
         )
     }
 }
+
+
+export default LeftMenu;
