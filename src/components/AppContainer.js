@@ -2,8 +2,8 @@ import React from 'react'
 import OfertarVaga from './OfertarVaga/OfertarVaga'
 import { TelaInicial } from './TelaInicial';
 import CardEmprego from './Trabalhador/CardEmprego'
-import Jobs from './components/Jobs'
-import { LeftMenu } from './components/LeftMenu'
+import Jobs from './Jobs'
+import { LeftMenu } from './LeftMenu'
 
 
 export class AppContainer extends React.Component {
@@ -16,9 +16,10 @@ export class AppContainer extends React.Component {
 
 	render() {
 
-
 		return (
-      <div></div>
+      		<div>
+				  <LeftMenu/>
+			</div>
 		)
 
 	}
