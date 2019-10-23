@@ -34,7 +34,6 @@ function App() {
 			<MuiThemeProvider theme={theme}>
 				<CssBaseline />
 				<AppContainer />
-				<Jobs/>
 			</MuiThemeProvider>
 		</JssProvider>
 	)

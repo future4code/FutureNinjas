@@ -19,13 +19,6 @@ const TitleMenu = styled.h3`
     text-align:center;
 `
 
-const TextMenu = styled.p`
-    color: #8762D1;
-    width:80%;
-    font-weight:bold;
-    text-align:start;
-    margin:10px;
-`
 
 const BadgeMenu = styled(Badge)`
 margin-left:10%;
@@ -50,18 +43,24 @@ export class LeftMenu extends React.Component {
         this.state = {
 
         }
-    }
+	}
+	
+	openJobDetail=()=>{
+
+	}
 
     render() {
+		const array = [{name:'Pintor'},{name:'Serralheiro'}]
+		const listJobs = array.map((job)=>{
+			return <BadgeMenu badgeContent={3} color="primary">
+					<ItensMenu onClick={this.openJobDetail} color="primary">{job.name}</ItensMenu>
+				</BadgeMenu>
+		})
+
         return (
             <MenuContainer>
                 <TitleMenu>Ofertadas Cadastradas</TitleMenu>
-                <BadgeMenu badgeContent={2} color="secondary">
-                    <ItensMenu color="primary">Pintor</ItensMenu>
-                </BadgeMenu>
-                <BadgeMenu badgeContent={1} color="secondary">
-                    <ItensMenu color="primary">Serralheiro</ItensMenu>
-                </BadgeMenu>
+				{listJobs}
             </MenuContainer>
         )
     }
