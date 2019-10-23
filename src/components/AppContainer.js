@@ -1,4 +1,5 @@
 import React from 'react'
+import OfertarVaga from './OfertarVaga/OfertarVaga'
 
 export class AppContainer extends React.Component {
 	constructor(props) {
@@ -11,3 +12,4 @@ export class AppContainer extends React.Component {
 		</div>
 	}
 }
+export default AppContainer
