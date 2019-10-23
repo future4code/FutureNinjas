@@ -5,6 +5,10 @@ import { MuiThemeProvider, createGenerateClassName, jssPreset } from '@material-
 import { createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AppContainer } from './components/AppContainer'
+import Jobs from './components/Jobs'
+
+import { LeftMenu } from './components/LeftMenu'
+
 
 const generateClassName = createGenerateClassName()
 const jss = create({
@@ -13,7 +17,16 @@ const jss = create({
 	insertionPoint: document.getElementById('jss-insertion-point'),
 })
 
-const theme = createMuiTheme()
+const theme = createMuiTheme({
+	palette:{
+		primary:{
+			main:'#8762D1'
+		},
+		secondary:{
+			main:'#868588'
+		}
+	}
+})
 
 function App() {
 	return (
@@ -21,6 +34,7 @@ function App() {
 			<MuiThemeProvider theme={theme}>
 				<CssBaseline />
 				<AppContainer />
+				<Jobs/>
 			</MuiThemeProvider>
 		</JssProvider>
 	)
