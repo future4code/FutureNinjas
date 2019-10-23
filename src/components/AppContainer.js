@@ -7,6 +7,7 @@ import { LeftMenu } from './LeftMenu'
 import ContainerEmpregador from './Empregador/Empregador'
 
 
+
 export class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,11 +18,12 @@ export class AppContainer extends React.Component {
 
 	render() {
 
-
 		return (
+
       <div>
 		  <ContainerEmpregador />
 	  </div>
+
 		)
 
 	}
