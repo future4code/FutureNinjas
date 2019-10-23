@@ -31,6 +31,7 @@ function App() {
 			<MuiThemeProvider theme={theme}>
 				<CssBaseline />
 				<AppContainer />
+				<LeftMenu/>
 			</MuiThemeProvider>
 		</JssProvider>
 	)
