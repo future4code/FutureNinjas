@@ -47,10 +47,10 @@ class CardEmprego extends React.Component {
                 />
                 <Divider/>
                 <StyledCardContent>
-                    <StyledTypography variant='h6' align='center'>Prazo: {this.props.job.dueDate}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Prazo: {new Date(this.props.job.dueDate).toLocaleDateString()}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
-                    <StyledTypography variant='h6' align='center'>Valor:  R$ {this.props.job.value}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Valor:  R$ {Number(this.props.job.value).toFixed(2)}</StyledTypography>
                     <StyledFab variant="extended">
                         Candidatar-se
                     </StyledFab>
