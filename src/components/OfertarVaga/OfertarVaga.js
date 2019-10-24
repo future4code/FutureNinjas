@@ -133,6 +133,7 @@ class OfertarVaga extends React.Component {
 					<PStyle >Oferte Uma Vaga  <AddCircle /></PStyle>
 
 				</ExpansionPanelSummaryStyled>
+
 				<ExpansionPanelDetailsStyled>
 					<TypographyStyled>
 
@@ -185,6 +186,7 @@ class OfertarVaga extends React.Component {
 					</TypographyStyled>
 				</ExpansionPanelDetailsStyled>
 			</ExpansionPanelStyled>
+
 
 		)
 	}

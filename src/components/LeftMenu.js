@@ -11,6 +11,7 @@ const MenuContainer = styled.div`
 	width: 20%;
     border-right: 1px solid #494949;
 	box-shadow:0 1px 5px #494949;
+	border-radius:5px;
 `
 
 const TitleMenu = styled.h3`
@@ -34,6 +35,7 @@ const ItensMenu = styled(Typography)`
     font-weight:bold;
     text-align:start;
     margin:5px 0; 
+	font-size:110%;
 	cursor:pointer;
 `
 

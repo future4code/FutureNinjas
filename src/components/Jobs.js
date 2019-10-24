@@ -63,15 +63,18 @@ class Jobs extends React.Component {
 
     getJobs = () => {
         const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
-            request.then(res => {
-                this.setState({
-                    jobs: res.data.jobs,
-                    jobsFilter: res.data.jobs
-                })
-            })
-    }
 
-    filter = (Maximo, Minimo, Title, Description) => {
+           request.then(res => {
+               this.setState({jobs: res.data.jobs,
+                            jobsFilter: res.data.jobs,
+                        })
+                            
+           })
+       }
+
+    filter = (Maximo, Minimo, Title, Description) =>{
+
+
         let Max
         let Min
         if(Maximo === '')
@@ -149,7 +152,7 @@ class Jobs extends React.Component {
     /* FIM DA ORDENAÇÃO */
 
     render(){
-    const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
+    const list =  this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job}/>)
         return(
             <div>
                 <Header>
