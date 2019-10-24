@@ -24,13 +24,18 @@ const StyledCardContent = styled(CardContent)`
 `
 
 const StyledFab = styled(Fab)`
+    justify-self: flex-end;
 `
 
 const StyledTypography = styled(Typography)`
     color: white;
 `
 
-
+const Div = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`
 
 class CardEmprego extends React.Component {
     constructor(props){
@@ -64,7 +69,9 @@ class CardEmprego extends React.Component {
                     <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Valor:  R$ {Number(this.props.job.value).toFixed(2)}</StyledTypography>
-                    {buttonTaken}
+                    <Div>
+                        {buttonTaken}
+                    </Div>
                 </StyledCardContent>
             </StyledCard>
         )

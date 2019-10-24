@@ -22,7 +22,6 @@ class ContainerEmpregador extends React.Component {
         super(props);
         this.state = {
 			jobSelected: {},
-
 			jobShown: true,
 			jobs: [],
 
@@ -31,7 +30,7 @@ class ContainerEmpregador extends React.Component {
 	
 	saveToRender = (object) => {
 		this.setState(object)
-		this.state.jobShown ? this.setState({jobShown: false}) : this.setState({jobShown: true})
+		this.setState({jobShown: false})
 	}
 
 	getJobs = async () => {
