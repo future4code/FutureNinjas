@@ -4,6 +4,8 @@ import { TelaInicial } from './TelaInicial'
 import CardEmprego from './Trabalhador/CardEmprego'
 import Jobs from './Jobs'
 import { LeftMenu } from './LeftMenu'
+import ContainerEmpregador from './Empregador/Empregador'
+
 
 
 export class AppContainer extends React.Component {
@@ -16,9 +18,11 @@ export class AppContainer extends React.Component {
 
 	render() {
 
-
 		return (
-      <div><Jobs/></div>
+
+      <div>
+		  <ContainerEmpregador />
+	  </div>
 		)
 
 	}
