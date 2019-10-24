@@ -84,8 +84,8 @@ class Jobs extends React.Component {
             Min = Minimo
         const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
                                           .filter(job => job.value >= Min)
-                                          .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
-                                          .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
+                                          .filter(job => job.title.search(Title) !== -1)
+                                          .filter(job => job.description.search(Description) !== -1)
         this.setState({jobsFilter})
     }
 
@@ -124,14 +124,14 @@ class Jobs extends React.Component {
         }
     
         this.setState({ open: false });
-	  };
+      };
 
     render(){
     const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
         return(
             <div>
                 <Header>
-                    <Img src={logo} alt="logo" onClick={this.props.goBack}/> 
+                    <Img src={logo} alt="logo"/>
                     <Filter>
                         <TextField
                             type='number'
