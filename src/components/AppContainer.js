@@ -1,6 +1,6 @@
 import React from 'react'
 import OfertarVaga from './OfertarVaga/OfertarVaga'
-import { TelaInicial } from './TelaInicial';
+import { TelaInicial } from './TelaInicial'
 import CardEmprego from './Trabalhador/CardEmprego'
 import Jobs from './Jobs'
 import { LeftMenu } from './LeftMenu'
@@ -23,7 +23,6 @@ export class AppContainer extends React.Component {
       <div>
 		  <ContainerEmpregador />
 	  </div>
-
 		)
 
 	}

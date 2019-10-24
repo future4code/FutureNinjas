@@ -43,14 +43,14 @@ class CardEmprego extends React.Component {
         return(
             <StyledCard>
                 <StyledCardHeader
-                 title='Pintor' 
+                 title={this.props.job.title} 
                 />
                 <Divider/>
                 <StyledCardContent>
-                    <StyledTypography variant='h6' align='center'>Prazo: {this.props.job.prazo}</StyledTypography>
-                    <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.formaPagamento}</StyledTypography>
-                    <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.descricao}</StyledTypography>
-                    <StyledTypography variant='h6' align='center'>Valor:  R$ {this.props.job.preco}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Prazo: {this.props.job.dueDate}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Valor:  R$ {this.props.job.value}</StyledTypography>
                     <StyledFab variant="extended">
                         Candidatar-se
                     </StyledFab>
