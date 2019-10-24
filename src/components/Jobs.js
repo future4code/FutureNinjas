@@ -55,7 +55,6 @@ class Jobs extends React.Component {
            description: '',
            jobsFilter: [],
            jobs:[]
-        
         };   
     }
     componentDidMount() {
@@ -64,6 +63,7 @@ class Jobs extends React.Component {
 
     getJobs = () => {
         const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+
            request.then(res => {
                this.setState({jobs: res.data.jobs,
                             jobsFilter: res.data.jobs,
@@ -73,6 +73,8 @@ class Jobs extends React.Component {
        }
 
     filter = (Maximo, Minimo, Title, Description) =>{
+
+
         let Max
         let Min
         if(Maximo === '')
@@ -88,8 +90,8 @@ class Jobs extends React.Component {
                                           .filter(job => job.title.search(Title) !== -1)
                                           .filter(job => job.description.search(Description) !== -1)
         this.setState({jobsFilter})
+        console.log(this.state.jobsFilter) //APAGAR ANTES DE DAR MERGE!!
     }
-
 
     changeMax = (event) =>{
             this.setState({max: event.target.value})
@@ -111,24 +113,50 @@ class Jobs extends React.Component {
         this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
     }
     
-      handleToggle = () => {
+    handleToggle = () => {
         this.setState(state => ({ open: !state.open }));
-      };
+    };
     
-      handleClose = event => {
+    handleClose = event => {
         if (this.anchorEl.contains(event.target)) {
-          return;
+            return;
         }
-    
-        this.setState({ open: false });
-      };
+    }
+
+    /* ORDENANDO OS ITENS */  
+    // por valor mínimo:
+    orderByMinValue  = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return a.value - b.value
+        })
+        this.setState({jobsFilter: orderedJobs})
+    }
+
+    // por ordem alfabética:
+    orderByTitle  = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            if (a.title > b.title) { return 1 }
+            if (a.title < b.title) { return -1 }
+            return 0;
+        })
+        this.setState({jobsFilter: orderedJobs})
+    }
+
+    // pelo menor prazo:
+    orderByDueDate = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {            
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        })
+        this.setState({jobsFilter: orderedJobs})
+    }
+    /* FIM DA ORDENAÇÃO */
 
     render(){
     const list =  this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job}/>)
         return(
             <div>
                 <Header>
-                    <Img src={logo} alt="logo"/>
+                    <Img src={logo} alt="logo" onClick={this.props.goBack}/>
                     <Filter>
                         <TextField
                             type='number'
@@ -172,23 +200,25 @@ class Jobs extends React.Component {
                             Ordenar
                         </Button>
                         <Popper open={this.state.open} anchorEl={this.anchorEl} transition disablePortal>
-                            {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                id="menu-list-grow"
-                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                            >
-                                <Paper>
-                                <ClickAwayListener onClickAway={this.handleClose}>
-                                    <MenuList>
-                                    <MenuItem onClick={this.handleClose}>Preço</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Nome</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Prazo</MenuItem>
-                                    </MenuList>
-                                </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                            )}
+                            {
+                                ({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        id="menu-list-grow"
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={this.handleClose}>
+                                                <MenuList>
+                                                    <MenuItem onClick={this.orderByTitle}>Nome</MenuItem>
+                                                    <MenuItem onClick={this.orderByMinValue}>Preço</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDate}>Prazo</MenuItem>
+                                                </MenuList>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )
+                            }
                         </Popper>
                     </Div>
                 </Header>

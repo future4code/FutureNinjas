@@ -45,25 +45,22 @@ export class LeftMenu extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			jobs: [],
+			
 		}
 	}
 
 	componentDidMount() {
-		this.getJobs()
+		this.props.getJobs()
 	}
 
-	getJobs = async () => {
-		const res = await axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
-		this.setState({ jobs: res.data.jobs })
-	}
+	
 
 	openJobDetail = (id) => {
 		this.props.saveToRender({jobSelected: id})
 	}
 
 	render() {
-		const listJobs = this.state.jobs.map((job, id) => {
+		const listJobs = this.props.jobs.map((job, id) => {
 
 			let totalTakens = 0
 			if(job.taken===true){
