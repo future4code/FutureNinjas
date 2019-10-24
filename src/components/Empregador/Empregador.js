@@ -10,7 +10,7 @@ class ContainerEmpregador extends React.Component {
 
     render(){
         return(
-            <div>
+            <div>				
 
             </div>
         )

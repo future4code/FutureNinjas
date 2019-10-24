@@ -82,14 +82,14 @@ class Jobs extends React.Component {
         }
     
         this.setState({ open: false });
-      };
+	  };
 
     render(){
     // const list = this.state.jobsFilter.map(job => {return <CardEmprego job={job}/>})
         return(
             <div>
                 <Header>
-                    <Img src={logo} alt="logo"/>
+                    <Img src={logo} alt="logo" onClick={this.props.goBack}/> 
                     <Filter>
                         <TextField
                             type='number'
