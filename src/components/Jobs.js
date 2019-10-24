@@ -9,7 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-// import CardEmprego from './Trabalhador/CardEmprego';
+import CardEmprego from './Trabalhador/CardEmprego';
+import axios from 'axios';
 
 const Header = styled.div`
     height: 7vh;
@@ -18,13 +19,17 @@ const Header = styled.div`
     background-color: #F5F5F5;
 `
 const Body = styled.div`
+    margin: 2vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 6.3vw;
+    justify-items: center;
 `
 const Img = styled.img`
-    height: 15vh;
-    margin-left: 1vw;
+    height: 80%;
+    align-self: center;
+    margin-left: 2vw;
+    cursor:pointer;
 `
 
 const Filter = styled.div`
@@ -32,7 +37,10 @@ const Filter = styled.div`
     justify-content: space-evenly;
 `
 
-    
+const Div =  styled.div`
+    margin-top: 2vh;
+`
+
 
 class Jobs extends React.Component {
     constructor(props){
@@ -40,36 +48,72 @@ class Jobs extends React.Component {
 
         this.state = {
            open: false,
-           max: '',
-           min: '',
+           max: Infinity,
+           min: 0,
            title: '',
-           describe: '',
+           description: '',
            jobsFilter: [],
-           jobs: []
+           jobs:[]
+        
         };   
     }
+    componentDidMount() {
+        this.getJobs()
+    }
 
-    filter = () =>{
-        const Max = parseInt(this.state.max)
-        const Min = parseInt(this.state.min)
-        const jobsFilter = this.state.jobs.filter(produto => produto.value <= Max)
-                                          .filter(produto => produto.value >= Min)
-                                          .filter(produto => produto.title.search(this.state.title) !== -1)
-                                          .filter(produto => produto.describe.search(this.state.describe) !== -1)
+    getJobs = () => {
+        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+           request.then(res => {
+               this.setState({jobs: res.data.jobs,
+                            jobsFilter: res.data.jobs})
+               console.log(res.data.jobs)
+           })
+       }
+
+    filter = (Max, Min, Title, Description) =>{
+        
+        const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
+                                          .filter(job => job.value >= Min)
+                                          .filter(job => job.title.search(Title) !== -1)
+                                          .filter(job => job.description.search(Description) !== -1)
         this.setState({jobsFilter})
     }
 
-    change = (event) =>{
-        this.setState({[event.target.name]: event.target.value })
-    }
 
     changeMax = (event) =>{
-        if (event.target.value === '')
+        if (event.target.value === ''){
             this.setState({max: Infinity})
-        else
+            this.filter(Infinity, this.state.min, this.state.title, this.state.description)
+        }
+        else{
             this.setState({max: event.target.value})
-        this.filter()
+            this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
+        }
     }
+
+    changeMin = (event) =>{
+        if (event.target.value === ''){
+            this.setState({min: 0})
+            this.filter(this.state.max, 0, this.state.title, this.state.description)
+        }
+        else{
+            this.setState({min: event.target.value})
+            this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
+        }
+    }
+
+    changeTitle = (event) =>{
+        this.setState({title: event.target.value })
+        this.filter(this.state.max, this.state.min, event.target.value,  this.state.description)
+    } 
+    
+    changeDescription = (event) =>{
+        this.setState({description: event.target.value })
+        this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
+    }
+
+
+
 
     
       handleToggle = () => {
@@ -85,7 +129,7 @@ class Jobs extends React.Component {
 	  };
 
     render(){
-    // const list = this.state.jobsFilter.map(job => {return <CardEmprego job={job}/>})
+    const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
         return(
             <div>
                 <Header>
@@ -104,24 +148,24 @@ class Jobs extends React.Component {
                             value={this.state.min}
                             label="Valor Minimo"
                             margin="Valor Minimo"
-                            onChange={this.change}
+                            onChange={this.changeMin}
                         />
                         <TextField
                             value={this.state.title}
                             name="title"
                             label="Titulo"
                             margin="Titulo"
-                            onChange={this.change}
+                            onChange={this.changeTitle}
                         />
                         <TextField
-                            value={this.state.describe}
-                            name="describe"
+                            value={this.state.description}
+                            name="description"
                             label="Descrição"
                             margin="Descrição"
-                            onChange={this.change}
+                            onChange={this.changeDescription}
                         />
                     </Filter>
-                    <div>
+                    <Div>
                         <Button
                             buttonRef={node => {
                             this.anchorEl = node;
@@ -151,10 +195,10 @@ class Jobs extends React.Component {
                             </Grow>
                             )}
                         </Popper>
-                    </div>
+                    </Div>
                 </Header>
                 <Body>
-                    {/* {list} */}
+                    {list}
                 </Body>
             </div>
         )

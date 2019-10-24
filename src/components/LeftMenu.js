@@ -1,15 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
 const MenuContainer = styled.div`
     display:flex;
     flex-direction:column;
-    flex-grow:1;
     align-items:center;
-    width:20%;
-    border: 5px solid #8762D1;
+	width: 20%;
+    border-right: 1px solid #494949;
+	box-shadow:0 1px 5px #494949;
 `
 
 const TitleMenu = styled.h3`
@@ -19,13 +20,6 @@ const TitleMenu = styled.h3`
     text-align:center;
 `
 
-const TextMenu = styled.p`
-    color: #8762D1;
-    width:80%;
-    font-weight:bold;
-    text-align:start;
-    margin:10px;
-`
 
 const BadgeMenu = styled(Badge)`
 margin-left:10%;
@@ -40,29 +34,57 @@ const ItensMenu = styled(Typography)`
     font-weight:bold;
     text-align:start;
     margin:5px 0; 
+	cursor:pointer;
 `
 
 
 
 export class LeftMenu extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+	constructor(props) {
+		super(props)
+		this.state = {
+			jobs: [],
+		}
+	}
 
-        }
-    }
+	componentDidMount() {
+		this.getJobs()
+	}
 
-    render() {
-        return (
-            <MenuContainer>
-                <TitleMenu>Ofertadas Cadastradas</TitleMenu>
-                <BadgeMenu badgeContent={2} color="secondary">
-                    <ItensMenu color="primary">Pintor</ItensMenu>
-                </BadgeMenu>
-                <BadgeMenu badgeContent={1} color="secondary">
-                    <ItensMenu color="primary">Serralheiro</ItensMenu>
-                </BadgeMenu>
+	getJobs = async () => {
+		const res = await axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+		this.setState({ jobs: res.data.jobs })
+	}
+
+	openJobDetail = (id) => {
+		this.props.saveToRender({jobSelected: id})
+	}
+
+	render() {
+		const listJobs = this.state.jobs.map((job, id) => {
+
+			let totalTakens = 0
+			if(job.taken===true){
+				totalTakens +=1
+			}else{
+				totalTakens = '0'
+			}
+			return (
+				<BadgeMenu key={id} badgeContent={totalTakens} color="primary">
+					<ItensMenu onClick={()=>this.openJobDetail(job)} color="primary">{job.title}</ItensMenu>
+				</BadgeMenu>
+			)
+		})
+
+		return (
+			<MenuContainer>
+				<TitleMenu>Ofertadas Cadastradas</TitleMenu>
+				{listJobs}
             </MenuContainer>
         )
     }
 }
+
+
+export default LeftMenu;
+

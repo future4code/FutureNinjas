@@ -1,8 +1,11 @@
 import React from 'react'
-import { TelaInicial } from './TelaInicial';
+import OfertarVaga from './OfertarVaga/OfertarVaga'
+import { TelaInicial } from './TelaInicial'
 import CardEmprego from './Trabalhador/CardEmprego'
-import Jobs from './Jobs';
-import { LeftMenu } from './LeftMenu'; //não sei qual o nome, ainda
+import Jobs from './Jobs'
+import { LeftMenu } from './LeftMenu'
+import ContainerEmpregador from './Empregador/Empregador'
+
 
 
 export class AppContainer extends React.Component {
@@ -22,6 +25,7 @@ export class AppContainer extends React.Component {
 		})
 	}
 
+
 	loadEmpregador = () => {
 		//até termos o componente certo pra carregar:
 		this.setState({
@@ -35,7 +39,9 @@ export class AppContainer extends React.Component {
 		});
 	}
 
+
 	render() {
 		return (this.state.currentWindow)
 	}
 }
+export default AppContainer

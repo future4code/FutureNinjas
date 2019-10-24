@@ -4,10 +4,8 @@ import { create } from 'jss'
 import { MuiThemeProvider, createGenerateClassName, jssPreset } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { AppContainer } from './components/AppContainer'
-import Jobs from './components/Jobs'
+import AppContainer from './components/AppContainer'
 
-import { LeftMenu } from './components/LeftMenu'
 
 
 const generateClassName = createGenerateClassName()
