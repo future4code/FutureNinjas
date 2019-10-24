@@ -131,7 +131,7 @@ class Jobs extends React.Component {
         return(
             <div>
                 <Header>
-                    <Img src={logo} alt="logo"/>
+                    <Img src={logo} alt="logo" onClick={this.props.goBack}/>
                     <Filter>
                         <TextField
                             type='number'

@@ -8,7 +8,7 @@ import Fab from '@material-ui/core/Fab';
 import styled from 'styled-components';
 
 const StyledCardHeader = styled(CardHeader)`
-    background: #6700A0;
+    background: #8762D1;
     text-align: center;
     span{color: white;}
 `
@@ -18,7 +18,7 @@ const StyledCard = styled(Card)`
 `
 
 const StyledCardContent = styled(CardContent)`
-    background: #9B12D3;
+    background: #b98fff;
 `
 
 const StyledFab = styled(Fab)`

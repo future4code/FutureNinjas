@@ -20,15 +20,26 @@ class ContainerEmpregador extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-			jobSelected: {}
+			jobSelected: {},
+			jobShown: true
         }
 	}
 	
 	saveToRender = (object) => {
 		this.setState(object)
+		this.state.jobShown ? this.setState({jobShown: false}) : this.setState({jobShown: true})
 	}
 
     render(){
+
+		let componentOferta = ''
+
+		this.state.jobShown ?
+		 componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={false} /> : 
+		 componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={true} />
+
+		console.log(componentOferta);
+
         return(
 
             <MainContainer>
@@ -36,7 +47,7 @@ class ContainerEmpregador extends React.Component {
 
 				<MainSection>
 					<LeftMenu saveToRender={this.saveToRender}/>
-					<OfertaDetalhada jobSelected={this.state.jobSelected} />
+					{componentOferta}
 				</MainSection>
 
             </MainContainer>

@@ -25,7 +25,6 @@ export class AppContainer extends React.Component {
 
 
 	loadEmpregador = () => {
-		//até termos o componente certo pra carregar:
 		this.setState({
 			currentWindow: <ContainerEmpregador goBack={this.goBackToStartScreen}/>
 		})
