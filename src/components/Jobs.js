@@ -66,8 +66,9 @@ class Jobs extends React.Component {
         const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
            request.then(res => {
                this.setState({jobs: res.data.jobs,
-                            jobsFilter: res.data.jobs})
-               console.log(res.data.jobs)
+                            jobsFilter: res.data.jobs,
+                        })
+                            
            })
        }
 
@@ -109,10 +110,6 @@ class Jobs extends React.Component {
         this.setState({description: event.target.value })
         this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
     }
-
-
-
-
     
       handleToggle = () => {
         this.setState(state => ({ open: !state.open }));
@@ -127,7 +124,7 @@ class Jobs extends React.Component {
       };
 
     render(){
-    const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
+    const list =  this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job}/>)
         return(
             <div>
                 <Header>

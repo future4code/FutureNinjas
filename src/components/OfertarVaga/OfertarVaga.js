@@ -73,7 +73,6 @@ class OfertarVaga extends React.Component {
 							<TextField
 								label="Título"
 								onChange={this.handleChange('labelTituloValue')}
-
 							/>
 							<TextField
 								label="Descrição"
