@@ -11,6 +11,7 @@ const MenuContainer = styled.div`
 	width: 20%;
     border-right: 1px solid #494949;
 	box-shadow:0 1px 5px #494949;
+	border-radius:5px;
 `
 
 const TitleMenu = styled.h3`
@@ -34,6 +35,7 @@ const ItensMenu = styled(Typography)`
     font-weight:bold;
     text-align:start;
     margin:5px 0; 
+	font-size:110%;
 	cursor:pointer;
 `
 
@@ -43,25 +45,22 @@ export class LeftMenu extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			jobs: [],
+			
 		}
 	}
 
 	componentDidMount() {
-		this.getJobs()
+		this.props.getJobs()
 	}
 
-	getJobs = async () => {
-		const res = await axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
-		this.setState({ jobs: res.data.jobs })
-	}
+	
 
 	openJobDetail = (id) => {
 		this.props.saveToRender({jobSelected: id})
 	}
 
 	render() {
-		const listJobs = this.state.jobs.map((job, id) => {
+		const listJobs = this.props.jobs.map((job, id) => {
 
 			let totalTakens = 0
 			if(job.taken===true){

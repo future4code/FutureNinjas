@@ -23,7 +23,6 @@ export class AppContainer extends React.Component {
 		})
 	}
 
-
 	loadEmpregador = () => {
 		this.setState({
 			currentWindow: <ContainerEmpregador goBack={this.goBackToStartScreen}/>
@@ -36,9 +35,8 @@ export class AppContainer extends React.Component {
 		});
 	}
 
-
 	render() {
-		return (this.state.currentWindow)
+		return this.state.currentWindow
 	}
 }
 export default AppContainer
