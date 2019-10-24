@@ -30,6 +30,7 @@ class ContainerEmpregador extends React.Component {
 
     render(){
         return(
+
             <MainContainer>
 				<OfertarVaga />
 
