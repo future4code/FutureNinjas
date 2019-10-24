@@ -38,24 +38,24 @@ const Filter = styled.div`
     align-self: center;
 `
 
-const Div =  styled.div`
+const Div = styled.div`
     margin-top: 2vh;
 `
 
 
 class Jobs extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
-           open: false,
-           max: '',
-           min: '',
-           title: '',
-           description: '',
-           jobsFilter: [],
-           jobs:[]
-        };   
+            open: false,
+            max: '',
+            min: '',
+            title: '',
+            description: '',
+            jobsFilter: [],
+            jobs: []
+        };
     }
     componentDidMount() {
         this.getJobs()
@@ -64,99 +64,99 @@ class Jobs extends React.Component {
     getJobs = () => {
         const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
 
-           request.then(res => {
-               this.setState({jobs: res.data.jobs,
-                            jobsFilter: res.data.jobs,
-                        })
-                            
-           })
-       }
+        request.then(res => {
+            this.setState({
+                jobs: res.data.jobs,
+                jobsFilter: res.data.jobs,
+            })
 
-    filter = (Maximo, Minimo, Title, Description) =>{
+        })
+    }
+
+    filter = (Maximo, Minimo, Title, Description) => {
 
 
         let Max
         let Min
-        if(Maximo === '')
+        if (Maximo === '')
             Max = Infinity
         else
-            Max  = Maximo
-        if(Minimo === '')
-             Min = 0
+            Max = Maximo
+        if (Minimo === '')
+            Min = 0
         else
             Min = Minimo
-        const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
-                                          .filter(job => job.value >= Min)
-                                          .filter(job => job.title.search(Title) !== -1)
-                                          .filter(job => job.description.search(Description) !== -1)
-        this.setState({jobsFilter})
-        console.log(this.state.jobsFilter) //APAGAR ANTES DE DAR MERGE!!
+        const jobsFilter = this.state.jobs.filter(job => Number(job.value) <= Max)
+            .filter(job => Number(job.value) >= Min)
+            .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
+            .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
+        this.setState({ jobsFilter })
     }
 
-    changeMax = (event) =>{
-            this.setState({max: event.target.value})
-            this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
+    changeMax = (event) => {
+        this.setState({ max: event.target.value })
+        this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
     }
 
-    changeMin = (event) =>{
-            this.setState({min: event.target.value})
-            this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
+    changeMin = (event) => {
+        this.setState({ min: event.target.value })
+        this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
     }
 
-    changeTitle = (event) =>{
-        this.setState({title: event.target.value })
-        this.filter(this.state.max, this.state.min, event.target.value,  this.state.description)
-    } 
-    
-    changeDescription = (event) =>{
-        this.setState({description: event.target.value })
+    changeTitle = (event) => {
+        this.setState({ title: event.target.value })
+        this.filter(this.state.max, this.state.min, event.target.value, this.state.description)
+    }
+
+    changeDescription = (event) => {
+        this.setState({ description: event.target.value })
         this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
     }
-    
+
     handleToggle = () => {
         this.setState(state => ({ open: !state.open }));
     };
-    
+
     handleClose = event => {
         if (this.anchorEl.contains(event.target)) {
             return;
         }
     }
 
-    /* ORDENANDO OS ITENS */  
+    /* ORDENANDO OS ITENS */
     // por valor mínimo:
-    orderByMinValue  = () => {
+    orderByMinValue = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return a.value - b.value
         })
-        this.setState({jobsFilter: orderedJobs})
+        this.setState({ jobsFilter: orderedJobs })
     }
 
     // por ordem alfabética:
-    orderByTitle  = () => {
+    orderByTitle = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             if (a.title > b.title) { return 1 }
             if (a.title < b.title) { return -1 }
             return 0;
         })
-        this.setState({jobsFilter: orderedJobs})
+        this.setState({ jobsFilter: orderedJobs })
     }
 
     // pelo menor prazo:
     orderByDueDate = () => {
-        const orderedJobs = this.state.jobsFilter.sort((a, b) => {            
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return new Date(a.dueDate) - new Date(b.dueDate);
         })
-        this.setState({jobsFilter: orderedJobs})
+        this.setState({ jobsFilter: orderedJobs })
     }
     /* FIM DA ORDENAÇÃO */
 
-    render(){
-    const list =  this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job}/>)
-        return(
+    render() {
+        const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
+        return (
             <div>
                 <Header>
-                    <Img src={logo} alt="logo" onClick={this.props.goBack}/>
+                    <Img src={logo} alt="logo" onClick={this.props.goBack} />
                     <Filter>
                         <TextField
                             type='number'
@@ -191,7 +191,7 @@ class Jobs extends React.Component {
                     <Div>
                         <Button
                             buttonRef={node => {
-                            this.anchorEl = node;
+                                this.anchorEl = node;
                             }}
                             aria-owns={this.state.open ? 'menu-list-grow' : undefined}
                             aria-haspopup="true"

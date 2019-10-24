@@ -60,24 +60,24 @@ export class TelaInicial extends React.Component {
 		return (
 			<BigWrapper>
 				<MainContainer>
-					<Logo src={logoCompleto} alt=""/>
+					<Logo src={logoCompleto} alt="" />
 					<SmallContainer>
 						<StyledH1>Bem vind@!</StyledH1>
 						<StyledH4>O que deseja fazer hoje?</StyledH4>
-						<StyledButton 
-							variant="contained" 
+						<StyledButton
+							variant="contained"
 							color="primary"
 							onClick={this.props.loadJobs}
 						>
-							<strong>buscar <br/> oportunidades</strong>
-      					</StyledButton>
-						<StyledButton 
-							variant="contained" 
+							<strong>buscar <br /> oportunidades</strong>
+						</StyledButton>
+						<StyledButton
+							variant="contained"
 							color="primary"
 							onClick={this.props.loadEmpregador}
 						>
-							<strong>oferecer <br/> oportunidades</strong>
-      					</StyledButton>
+							<strong>oferecer <br /> oportunidades</strong>
+						</StyledButton>
 					</SmallContainer>
 				</MainContainer>
 			</BigWrapper>

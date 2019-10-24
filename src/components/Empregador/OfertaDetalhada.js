@@ -64,22 +64,22 @@ const ImgLogo = styled.img`
 `
 
 class OfertaDetalhada extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 		}
 	}
 
 
-	render(){
+	render() {
 
 		const jobCard = this.props.showJob
 
 		if (jobCard) {
-			return(
+			return (
 				<MainCardStyled>
 					<CardHeaderStyled
-					title={this.props.jobSelected.title}
+						title={this.props.jobSelected.title}
 					/>
 					<Divider />
 					<CardContent>
@@ -87,7 +87,7 @@ class OfertaDetalhada extends React.Component {
 						<TopSectionDiv>
 							<TopSectionCard>
 								<CardHeaderStyled
-								title='Forma de pagamento' 
+									title='Forma de pagamento'
 								/>
 								<Divider />
 								<CardContentStyled>
@@ -97,7 +97,7 @@ class OfertaDetalhada extends React.Component {
 
 							<TopSectionCard>
 								<CardHeaderStyled
-								title='Valor' 
+									title='Valor'
 								/>
 								<Divider />
 								<CardContentStyled color="primary">
@@ -107,7 +107,7 @@ class OfertaDetalhada extends React.Component {
 
 							<TopSectionCard>
 								<CardHeaderStyled
-								title='Prazo' 
+									title='Prazo'
 								/>
 								<Divider />
 								<CardContentStyled>
@@ -120,7 +120,7 @@ class OfertaDetalhada extends React.Component {
 						<BottomSectionDiv>
 							<BottomSectionCard>
 								<CardHeaderStyled
-								title='Descrição' 
+									title='Descrição'
 								/>
 								<Divider />
 								<CardContentStyled>
@@ -133,7 +133,7 @@ class OfertaDetalhada extends React.Component {
 				</MainCardStyled>
 			)
 		} else {
-			return(
+			return (
 				<NoJobSelected>
 					<ImgLogo src={logo} />
 					<h1>Selecione uma oferta já cadastrada ou crie uma nova.</h1>

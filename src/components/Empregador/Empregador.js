@@ -18,19 +18,19 @@ const MainSection = styled.div`
 
 
 class ContainerEmpregador extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
+	constructor(props) {
+		super(props);
+		this.state = {
 			jobSelected: {},
 			jobShown: true,
 			jobs: [],
 
-        }
+		}
 	}
-	
+
 	saveToRender = (object) => {
 		this.setState(object)
-		this.setState({jobShown: false})
+		this.setState({ jobShown: false })
 	}
 
 	getJobs = async () => {
@@ -38,29 +38,29 @@ class ContainerEmpregador extends React.Component {
 		this.setState({ jobs: res.data.jobs })
 	}
 
-    render(){
+	render() {
 
 		let componentOferta = ''
 
 		this.state.jobShown ?
-		 componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={false} /> : 
-		 componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={true} />
+			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={false} /> :
+			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={true} />
 
 		console.log(componentOferta);
 
-        return(
+		return (
 
-            <MainContainer>
+			<MainContainer>
 				<OfertarVaga getJobs={this.getJobs} goBack={this.props.goBack} />
 
 				<MainSection>
-					<LeftMenu jobs={this.state.jobs} getJobs={this.getJobs} saveToRender={this.saveToRender}/>
+					<LeftMenu jobs={this.state.jobs} getJobs={this.getJobs} saveToRender={this.saveToRender} />
 					{componentOferta}
 				</MainSection>
 
-            </MainContainer>
-        )
-    }
+			</MainContainer>
+		)
+	}
 }
 
 export default ContainerEmpregador;

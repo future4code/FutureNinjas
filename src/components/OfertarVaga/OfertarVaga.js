@@ -97,25 +97,26 @@ class OfertarVaga extends React.Component {
 	};
 
 	addJob = async () => {
-		try{const data = {
-			title: this.state.titleValue,
-			description: this.state.descriptionValue,
-			value: this.state.valueValue,
-			paymentMethods: [this.state.paymentMethodsValue],
-			dueDate:  Number(new Date(this.state.dueDateValue)),
-		}
-		
-		const res =  await axios.post('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs', data)
-		window.alert(res.data.message)
-		this.setState({
-			titleValue: '',
-			descriptionValue: '',
-			valueValue: '',
-			paymentMethodsValue: '',
-			dueDateValue: '',
-		})
-		this.props.getJobs()
-		}catch (err){
+		try {
+			const data = {
+				title: this.state.titleValue,
+				description: this.state.descriptionValue,
+				value: this.state.valueValue,
+				paymentMethods: [this.state.paymentMethodsValue],
+				dueDate: Number(new Date(this.state.dueDateValue)),
+			}
+
+			const res = await axios.post('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs', data)
+			window.alert(res.data.message)
+			this.setState({
+				titleValue: '',
+				descriptionValue: '',
+				valueValue: '',
+				paymentMethodsValue: '',
+				dueDateValue: '',
+			})
+			this.props.getJobs()
+		} catch (err) {
 			window.alert(`Verifique todos os campos. Erro: ${err.message}`)
 		}
 	}
@@ -137,51 +138,54 @@ class OfertarVaga extends React.Component {
 				<ExpansionPanelDetailsStyled>
 					<TypographyStyled>
 
-						
-							
-								<TextFieldStyled
-									label="Título"
-									onChange={this.handleChange('titleValue')}
-									value={this.state.titleValue}
-								/>
-								<TextFieldStyled
-									label="Descrição"
-									onChange={this.handleChange('descriptionValue')}
-									value={this.state.descriptionValue}
-								/>
-								<TextFieldStyled
-									type='number'
-									label="Valor"
-									onChange={this.handleChange('valueValue')}
-									value={this.state.valueValue}	 
-								/>
-								<TextFieldStyledMargin
-									type='date'
-									helperText="Prazo"
-									margin="normal"
-									onChange={this.handleChange('dueDateValue')}
-									value={this.state.dueDateValue}
-								/>
-								
-								<FormControlStyled >
-									<Select
-										value={this.state.paymentMethodsValue}
-										onChange={this.handleChange('paymentMethodsValue')}
-										
-									>
-										<MenuItem value="Cartão de crédito">
-											<em>Cartao de crédito</em>
-										</MenuItem>
-										<MenuItem value={'Cartão de débito'}>Cartão de débito</MenuItem>
-										<MenuItem value={'Dinheiro'}>Dinheiro</MenuItem>
-										<MenuItem value={'Cheque'}>Cheque</MenuItem>
-										<MenuItem value={'Transferência Bancária'}>Transferência Bancária</MenuItem>
-									</Select>
-									<FormHelperText>Forma de Pagamento</FormHelperText>
-								</FormControlStyled>
-								<ButtonStyled variant="contained" color="primary" onClick={this.addJob} >Criar <br/> Vaga</ButtonStyled>
-							
-						
+
+
+						<TextFieldStyled
+							label="Título"
+							onChange={this.handleChange('titleValue')}
+							value={this.state.titleValue}
+						/>
+						<TextFieldStyled
+							label="Descrição"
+							onChange={this.handleChange('descriptionValue')}
+							value={this.state.descriptionValue}
+						/>
+						<TextFieldStyled
+							type='number'
+							label="Valor"
+							inputProps={{ min: 0 }}
+							onChange={this.handleChange('valueValue')}
+							value={this.state.valueValue}
+						/>
+
+						<TextFieldStyledMargin
+							type='date'
+							helperText="Prazo"
+							margin="normal"
+							inputProps={{ min: new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1) + '-' + Number(new Date().getDate()) }}
+							onChange={this.handleChange('dueDateValue')}
+							value={this.state.dueDateValue}
+						/>
+
+						<FormControlStyled >
+							<Select
+								value={this.state.paymentMethodsValue}
+								onChange={this.handleChange('paymentMethodsValue')}
+
+							>
+								<MenuItem value="Cartão de crédito">
+									<em>Cartao de crédito</em>
+								</MenuItem>
+								<MenuItem value={'Cartão de débito'}>Cartão de débito</MenuItem>
+								<MenuItem value={'Dinheiro'}>Dinheiro</MenuItem>
+								<MenuItem value={'Cheque'}>Cheque</MenuItem>
+								<MenuItem value={'Transferência Bancária'}>Transferência Bancária</MenuItem>
+							</Select>
+							<FormHelperText>Forma de Pagamento</FormHelperText>
+						</FormControlStyled>
+						<ButtonStyled variant="contained" color="primary" onClick={this.addJob} >Criar <br /> Vaga</ButtonStyled>
+
+
 
 					</TypographyStyled>
 				</ExpansionPanelDetailsStyled>

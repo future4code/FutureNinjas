@@ -10,28 +10,28 @@ export class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentWindow: <TelaInicial 
-								loadJobs={this.loadJobs} 
-								loadEmpregador={this.loadEmpregador}
-							/>
+			currentWindow: <TelaInicial
+				loadJobs={this.loadJobs}
+				loadEmpregador={this.loadEmpregador}
+			/>
 		}
 	}
 
 	loadJobs = () => {
 		this.setState({
-			currentWindow: <Jobs goBack={this.goBackToStartScreen}/>
+			currentWindow: <Jobs goBack={this.goBackToStartScreen} />
 		})
 	}
 
 	loadEmpregador = () => {
 		this.setState({
-			currentWindow: <ContainerEmpregador goBack={this.goBackToStartScreen}/>
+			currentWindow: <ContainerEmpregador goBack={this.goBackToStartScreen} />
 		})
 	}
 
 	goBackToStartScreen = () => {
 		this.setState({
-			currentWindow: <TelaInicial loadJobs={this.loadJobs} loadEmpregador={this.loadEmpregador}/>
+			currentWindow: <TelaInicial loadJobs={this.loadJobs} loadEmpregador={this.loadEmpregador} />
 		});
 	}
 

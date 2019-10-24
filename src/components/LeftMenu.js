@@ -19,6 +19,7 @@ const TitleMenu = styled.h3`
     width:90%;
     color: white;
     text-align:center;
+	border-radius:5px;
 `
 
 
@@ -45,7 +46,7 @@ export class LeftMenu extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			
+
 		}
 	}
 
@@ -53,24 +54,24 @@ export class LeftMenu extends React.Component {
 		this.props.getJobs()
 	}
 
-	
+
 
 	openJobDetail = (id) => {
-		this.props.saveToRender({jobSelected: id})
+		this.props.saveToRender({ jobSelected: id })
 	}
 
 	render() {
 		const listJobs = this.props.jobs.map((job, id) => {
 
 			let totalTakens = 0
-			if(job.taken===true){
-				totalTakens +=1
-			}else{
+			if (job.taken === true) {
+				totalTakens += 1
+			} else {
 				totalTakens = '0'
 			}
 			return (
 				<BadgeMenu key={id} badgeContent={totalTakens} color="primary">
-					<ItensMenu onClick={()=>this.openJobDetail(job)} color="primary">{job.title}</ItensMenu>
+					<ItensMenu onClick={() => this.openJobDetail(job)} color="primary">{job.title}</ItensMenu>
 				</BadgeMenu>
 			)
 		})
@@ -79,9 +80,9 @@ export class LeftMenu extends React.Component {
 			<MenuContainer>
 				<TitleMenu>Ofertas Cadastradas</TitleMenu>
 				{listJobs}
-            </MenuContainer>
-        )
-    }
+			</MenuContainer>
+		)
+	}
 }
 
 
