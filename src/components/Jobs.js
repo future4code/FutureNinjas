@@ -13,7 +13,7 @@ import CardEmprego from './Trabalhador/CardEmprego';
 import axios from 'axios';
 
 const Header = styled.div`
-    height: 7vh;
+    height: 8vh;
     display: grid;
     grid-template-columns: 10vw 1fr 10vw;
     background-color: #F5F5F5;
@@ -26,7 +26,7 @@ const Body = styled.div`
     justify-items: center;
 `
 const Img = styled.img`
-    height: 80%;
+    height: 7vh;
     align-self: center;
     margin-left: 2vw;
     cursor:pointer;
@@ -35,6 +35,7 @@ const Img = styled.img`
 const Filter = styled.div`
     display:flex;
     justify-content: space-evenly;
+    align-self: center;
 `
 
 const Div =  styled.div`
@@ -48,8 +49,8 @@ class Jobs extends React.Component {
 
         this.state = {
            open: false,
-           max: Infinity,
-           min: 0,
+           max: '',
+           min: '',
            title: '',
            description: '',
            jobsFilter: [],
@@ -70,8 +71,17 @@ class Jobs extends React.Component {
            })
        }
 
-    filter = (Max, Min, Title, Description) =>{
-        
+    filter = (Maximo, Minimo, Title, Description) =>{
+        let Max
+        let Min
+        if(Maximo === '')
+            Max = Infinity
+        else
+            Max  = Maximo
+        if(Minimo === '')
+             Min = 0
+        else
+            Min = Minimo
         const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
                                           .filter(job => job.value >= Min)
                                           .filter(job => job.title.search(Title) !== -1)
@@ -81,25 +91,13 @@ class Jobs extends React.Component {
 
 
     changeMax = (event) =>{
-        if (event.target.value === ''){
-            this.setState({max: Infinity})
-            this.filter(Infinity, this.state.min, this.state.title, this.state.description)
-        }
-        else{
             this.setState({max: event.target.value})
             this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
-        }
     }
 
     changeMin = (event) =>{
-        if (event.target.value === ''){
-            this.setState({min: 0})
-            this.filter(this.state.max, 0, this.state.title, this.state.description)
-        }
-        else{
             this.setState({min: event.target.value})
             this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
-        }
     }
 
     changeTitle = (event) =>{
