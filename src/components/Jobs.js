@@ -35,6 +35,7 @@ const Img = styled.img`
 const Filter = styled.div`
     display:flex;
     justify-content: space-evenly;
+    align-self: center;
 `
 
 const Div =  styled.div`
@@ -48,8 +49,8 @@ class Jobs extends React.Component {
 
         this.state = {
            open: false,
-           max: Infinity,
-           min: 0,
+           max: '',
+           min: '',
            title: '',
            description: '',
            jobsFilter: [],
@@ -70,36 +71,33 @@ class Jobs extends React.Component {
            })
        }
 
-    filter = (Max, Min, Title, Description) =>{
-        
+    filter = (Maximo, Minimo, Title, Description) =>{
+        let Max
+        let Min
+        if(Maximo === '')
+            Max = Infinity
+        else
+            Max  = Maximo
+        if(Minimo === '')
+             Min = 0
+        else
+            Min = Minimo
         const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
                                           .filter(job => job.value >= Min)
-                                          .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
-                                          .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
+                                          .filter(job => job.title.search(Title) !== -1)
+                                          .filter(job => job.description.search(Description) !== -1)
         this.setState({jobsFilter})
     }
 
 
     changeMax = (event) =>{
-        if (event.target.value === ''){
-            this.setState({max: Infinity})
-            this.filter(Infinity, this.state.min, this.state.title, this.state.description)
-        }
-        else{
             this.setState({max: event.target.value})
             this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
-        }
     }
 
     changeMin = (event) =>{
-        if (event.target.value === ''){
-            this.setState({min: 0})
-            this.filter(this.state.max, 0, this.state.title, this.state.description)
-        }
-        else{
             this.setState({min: event.target.value})
             this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
-        }
     }
 
     changeTitle = (event) =>{
@@ -126,14 +124,14 @@ class Jobs extends React.Component {
         }
     
         this.setState({ open: false });
-	  };
+      };
 
     render(){
     const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
         return(
             <div>
                 <Header>
-                    <Img src={logo} alt="logo" onClick={this.props.goBack}/> 
+                    <Img src={logo} alt="logo"/>
                     <Filter>
                         <TextField
                             type='number'
