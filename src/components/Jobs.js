@@ -13,7 +13,7 @@ import CardEmprego from './Trabalhador/CardEmprego';
 import axios from 'axios';
 
 const Header = styled.div`
-    height: 7vh;
+    height: 8vh;
     display: grid;
     grid-template-columns: 10vw 1fr 10vw;
     background-color: #F5F5F5;
@@ -26,7 +26,7 @@ const Body = styled.div`
     justify-items: center;
 `
 const Img = styled.img`
-    height: 80%;
+    height: 7vh;
     align-self: center;
     margin-left: 2vw;
     cursor:pointer;
@@ -74,8 +74,8 @@ class Jobs extends React.Component {
         
         const jobsFilter = this.state.jobs.filter(job => job.value <= Max)
                                           .filter(job => job.value >= Min)
-                                          .filter(job => job.title.search(Title) !== -1)
-                                          .filter(job => job.description.search(Description) !== -1)
+                                          .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
+                                          .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
         this.setState({jobsFilter})
     }
 

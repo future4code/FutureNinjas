@@ -6,8 +6,6 @@ import Jobs from './Jobs'
 import { LeftMenu } from './LeftMenu'
 import ContainerEmpregador from './Empregador/Empregador'
 
-
-
 export class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -29,7 +27,7 @@ export class AppContainer extends React.Component {
 	loadEmpregador = () => {
 		//até termos o componente certo pra carregar:
 		this.setState({
-			currentWindow: <LeftMenu goBack={this.goBackToStartScreen}/>
+			currentWindow: <ContainerEmpregador goBack={this.goBackToStartScreen}/>
 		})
 	}
 

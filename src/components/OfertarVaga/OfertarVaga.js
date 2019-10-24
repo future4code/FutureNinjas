@@ -12,7 +12,9 @@ import logo from '../../logo_ninja.svg'
 
 
 const ImgLogo = styled.img`
-	height: 15vh;
+    height: 7vh;
+    margin-left: 2vw;
+    cursor:pointer;
  `
 
 const ButtonStyled = styled(Button)`
@@ -58,7 +60,7 @@ class OfertarVaga extends React.Component {
 			<ExpansionPanel>
 				<ExpansionPanelSummaryStyled expandIcon={<ExpandMoreIcon />}>
 					<FlexDivLogo>
-						<ImgLogo src={logo} onClick={this.props.ChangeView} />
+						<ImgLogo src={logo} onClick={this.props.goBack} />
 					</FlexDivLogo>
 
 					<PStyle >Oferte Uma Vaga</PStyle>

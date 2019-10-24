@@ -69,14 +69,14 @@ export class TelaInicial extends React.Component {
 							color="primary"
 							onClick={this.props.loadJobs}
 						>
-							buscar <br/> oportunidades
+							<strong>buscar <br/> oportunidades</strong>
       					</StyledButton>
 						<StyledButton 
 							variant="contained" 
 							color="primary"
 							onClick={this.props.loadEmpregador}
 						>
-							oferecer <br/> oportunidades
+							<strong>oferecer <br/> oportunidades</strong>
       					</StyledButton>
 					</SmallContainer>
 				</MainContainer>

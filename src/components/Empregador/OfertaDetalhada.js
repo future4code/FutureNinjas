@@ -67,8 +67,8 @@ class OfertaDetalhada extends React.Component {
 							title='Valor' 
 							/>
 							<Divider />
-							<CardContent>
-								<Typography variant='h6' align='center'>{Number(this.props.jobSelected.value).toFixed(2)}</Typography>
+							<CardContent color="primary">
+								<Typography variant='h6' align='center'>R$ {Number(this.props.jobSelected.value).toFixed(2)}</Typography>
 							</CardContent>
 						</TopSectionCard>
 

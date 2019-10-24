@@ -78,7 +78,7 @@ export class LeftMenu extends React.Component {
 
 		return (
 			<MenuContainer>
-				<TitleMenu>Ofertadas Cadastradas</TitleMenu>
+				<TitleMenu>Ofertas Cadastradas</TitleMenu>
 				{listJobs}
             </MenuContainer>
         )

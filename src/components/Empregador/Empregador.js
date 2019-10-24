@@ -32,7 +32,7 @@ class ContainerEmpregador extends React.Component {
         return(
 
             <MainContainer>
-				<OfertarVaga />
+				<OfertarVaga goBack={this.props.goBack} />
 
 				<MainSection>
 					<LeftMenu saveToRender={this.saveToRender}/>
