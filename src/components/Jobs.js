@@ -205,9 +205,6 @@ class Jobs extends React.Component {
 
 
     render() {
-
-
-
         const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
         return (
             <div>
