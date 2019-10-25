@@ -9,6 +9,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Edit from '@material-ui/icons/Edit';
 import logo from '../../logo_ninja.svg';
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
 
 const MainCardStyled = styled(Card)`
 	width: 80%;
@@ -129,6 +130,14 @@ class OfertaDetalhada extends React.Component {
 		}
 	}
 
+	deleteJob=async ()=>{
+		if(window.confirm('Tem certeza que deseja deletar este emprego?')){
+		const res = await axios.delete(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`)
+		this.props.getJobs()
+		this.props.saveToState({jobShown: true})
+		}
+	}
+
 
 	render() {
 
@@ -139,7 +148,7 @@ class OfertaDetalhada extends React.Component {
 				<MainCardStyled>
 					<CardHeaderStyled
 						title={this.props.jobSelected.title}
-						action={<HeaderIconDiv><EditStyle fontSize='large' /><DeleteForeverIconStyle fontSize='large'/></HeaderIconDiv>}
+						action={<HeaderIconDiv><EditStyle fontSize='large' /><DeleteForeverIconStyle onClick={this.deleteJob} fontSize='large'/></HeaderIconDiv>}
 					/>
 					
 					<Divider />
