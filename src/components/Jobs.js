@@ -80,7 +80,7 @@ class Jobs extends React.Component {
         })
     }
 
-    filter = (Maximo, Minimo, Title, Description) => {
+    filter = (Maximo, Minimo, Title, Description,CheckedA,CheckedB) => {
 
 
         let Max
@@ -97,13 +97,11 @@ class Jobs extends React.Component {
             .filter(job => job.value >= Min)
             .filter(job => job.title.search(Title) !== -1)
             .filter(job => job.description.search(Description) !== -1)
-        if (this.state.checkedA === false) {
-            console.log(this.state.checkedA)
-            console.log(this.state.checkedB)
+        if (CheckedA === false) {
+            // console.log(CheckedA)
             jobsFilter = jobsFilter.filter(job => job.taken === false)
-        } if (this.state.checkedB === false) {
-            console.log(this.state.checkedA)
-            console.log(this.state.checkedB)
+        } if (CheckedB === false) {
+            // console.log(CheckedB)
             jobsFilter = jobsFilter.filter(job => job.taken === true)
         }
         this.setState({ jobsFilter })
@@ -141,8 +139,9 @@ class Jobs extends React.Component {
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.checked });
+        console.log(event.target.checked)
 
-        if(this.state.checkedA===true){
+        if(name==='checkedA'){
             this.filter(this.state.max, this.state.min, this.state.title, this.state.description, event.target.checked, this.state.checkedB)
         }else{
             this.filter(this.state.max, this.state.min, this.state.title, this.state.description, this.state.checkedA, event.target.checked)
