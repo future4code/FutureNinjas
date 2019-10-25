@@ -42,7 +42,7 @@ const Filter = styled.div`
 const Div = styled.div`
     margin-top: 2vh;
 `
-const MenuListStyled= styled(MenuList)`
+const MenuListStyled = styled(MenuList)`
 
 `
 
@@ -53,16 +53,16 @@ class Jobs extends React.Component {
 
         this.state = {
 
-           open: false,
-           max: '',
-           min: '',
-           title: '',
-           description: '',
-           jobsFilter: [],
-           jobs:[],
-           checkedB: true,
-           checkedA: true
-        };   
+            open: false,
+            max: '',
+            min: '',
+            title: '',
+            description: '',
+            jobsFilter: [],
+            jobs: [],
+            checkedB: true,
+            checkedA: true
+        };
     }
     componentDidMount() {
         this.getJobs()
@@ -94,39 +94,36 @@ class Jobs extends React.Component {
         else
             Min = Minimo
         let jobsFilter = this.state.jobs.filter(job => job.value <= Max)
-                                          .filter(job => job.value >= Min)
-                                          .filter(job => job.title.search(Title) !== -1)
-                                          .filter(job => job.description.search(Description) !== -1)
-        if(this.state.checkedA === false){
-            console.log(this.state.checkedA )
-            console.log(this.state.checkedB )
+            .filter(job => job.value >= Min)
+            .filter(job => job.title.search(Title) !== -1)
+            .filter(job => job.description.search(Description) !== -1)
+        if (this.state.checkedA === false) {
+            console.log(this.state.checkedA)
+            console.log(this.state.checkedB)
             jobsFilter = jobsFilter.filter(job => job.taken === false)
-        }if(this.state.checkedB === false){
-            console.log(this.state.checkedA )
-            console.log(this.state.checkedB )
+        } if (this.state.checkedB === false) {
+            console.log(this.state.checkedA)
+            console.log(this.state.checkedB)
             jobsFilter = jobsFilter.filter(job => job.taken === true)
         }
-        this.setState({jobsFilter})
+        this.setState({ jobsFilter })
     }
-
     changeMax = (event) => {
         this.setState({ max: event.target.value })
-        this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
+        this.filter(event.target.value, this.state.min, this.state.title, this.state.description, this.state.checkedA, this.state.checkedB)
     }
-
     changeMin = (event) => {
         this.setState({ min: event.target.value })
-        this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
+        this.filter(this.state.max, event.target.value, this.state.title, this.state.description, this.state.checkedA, this.state.checkedB)
     }
-
     changeTitle = (event) => {
         this.setState({ title: event.target.value })
-        this.filter(this.state.max, this.state.min, event.target.value, this.state.description)
+        this.filter(this.state.max, this.state.min, event.target.value, this.state.description, this.state.checkedA, this.state.checkedB)
     }
 
     changeDescription = (event) => {
         this.setState({ description: event.target.value })
-        this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
+        this.filter(this.state.max, this.state.min, this.state.title, event.target.value, this.state.checkedA, this.state.checkedB)
     }
 
     handleToggle = () => {
@@ -138,15 +135,19 @@ class Jobs extends React.Component {
             return;
         }
 
-    
+
         this.setState({ open: false });
-      };
-      
-      handleChange = name => event => {
+    };
+
+    handleChange = name => event => {
         this.setState({ [name]: event.target.checked });
-        console.log(this.state.checkedA, this.state.checkedB )
-        this.filter(this.state.max, this.state.min, this.state.title,  this.state.description)
-      };
+
+        if(this.state.checkedA===true){
+            this.filter(this.state.max, this.state.min, this.state.title, this.state.description, event.target.checked, this.state.checkedB)
+        }else{
+            this.filter(this.state.max, this.state.min, this.state.title, this.state.description, this.state.checkedA, event.target.checked)
+        }
+    };
 
 
     /* ORDENANDO OS ITENS */
@@ -205,6 +206,9 @@ class Jobs extends React.Component {
 
 
     render() {
+
+  
+
         const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
         return (
             <div>
@@ -240,26 +244,26 @@ class Jobs extends React.Component {
                             margin="Descrição"
                             onChange={this.changeDescription}
                         />
-                        <div>    
+                        <div>
                             <FormControlLabel
                                 control={
-                                  <Checkbox
-                                    checked={this.state.checkedA}
-                                    onChange={this.handleChange('checkedA')}
-                                    value="checkedA"
-                                    color="primary"
-                                  />
+                                    <Checkbox
+                                        checked={this.state.checkedA}
+                                        onChange={this.handleChange('checkedA')}
+                                        value="checkedA"
+                                        color="primary"
+                                    />
                                 }
                                 label="Pegas"
                             />
                             <FormControlLabel
                                 control={
-                                  <Checkbox
-                                    checked={this.state.checkedB}
-                                    onChange={this.handleChange('checkedB')}
-                                    value="checkedB"
-                                    color="primary"
-                                  />
+                                    <Checkbox
+                                        checked={this.state.checkedB}
+                                        onChange={this.handleChange('checkedB')}
+                                        value="checkedB"
+                                        color="primary"
+                                    />
                                 }
                                 label="Abertas"
                             />
