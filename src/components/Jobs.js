@@ -20,10 +20,10 @@ const Header = styled.div`
     background-color: #F5F5F5;
 `
 const Body = styled.div`
-    margin: 2vh;
+    margin: 1vw;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 6.3vw;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1vw;
     justify-items: center;
 `
 const Img = styled.img`
@@ -39,17 +39,18 @@ const Filter = styled.div`
     align-self: center;
 `
 
-const Div =  styled.div`
+const Div = styled.div`
     margin-top: 2vh;
 `
 
 
 
 class Jobs extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
+
            open: false,
            max: '',
            min: '',
@@ -66,22 +67,28 @@ class Jobs extends React.Component {
     }
 
     getJobs = () => {
-        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
-           request.then(res => {
-               this.setState({jobs: res.data.jobs,
-                            jobsFilter: res.data.jobs})
-           })
-       }
+        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs'
 
-    filter = (Maximo, Minimo, Title, Description) =>{
+        request.then(res => {
+            this.setState({
+                jobs: res.data.jobs,
+                jobsFilter: res.data.jobs,
+            })
+
+        })
+    }
+
+    filter = (Maximo, Minimo, Title, Description) => {
+
+
         let Max
         let Min
-        if(Maximo === '')
+        if (Maximo === '')
             Max = Infinity
         else
-            Max  = Maximo
-        if(Minimo === '')
-             Min = 0
+            Max = Maximo
+        if (Minimo === '')
+            Min = 0
         else
             Min = Minimo
         let jobsFilter = this.state.jobs.filter(job => job.value <= Max)
@@ -100,39 +107,35 @@ class Jobs extends React.Component {
         this.setState({jobsFilter})
     }
 
-
-    changeMax = (event) =>{
-            this.setState({max: event.target.value})
-            this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
+    changeMax = (event) => {
+        this.setState({ max: event.target.value })
+        this.filter(event.target.value, this.state.min, this.state.title, this.state.description)
     }
 
-    changeMin = (event) =>{
-            this.setState({min: event.target.value})
-            this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
+    changeMin = (event) => {
+        this.setState({ min: event.target.value })
+        this.filter(this.state.max, event.target.value, this.state.title, this.state.description)
     }
 
-    changeTitle = (event) =>{
-        this.setState({title: event.target.value })
-        this.filter(this.state.max, this.state.min, event.target.value,  this.state.description)
-    } 
-    
-    changeDescription = (event) =>{
-        this.setState({description: event.target.value })
+    changeTitle = (event) => {
+        this.setState({ title: event.target.value })
+        this.filter(this.state.max, this.state.min, event.target.value, this.state.description)
+    }
+
+    changeDescription = (event) => {
+        this.setState({ description: event.target.value })
         this.filter(this.state.max, this.state.min, this.state.title, event.target.value)
     }
 
-
-
-
-    
-      handleToggle = () => {
+    handleToggle = () => {
         this.setState(state => ({ open: !state.open }));
-      };
-    
-      handleClose = event => {
+    };
+
+    handleClose = event => {
         if (this.anchorEl.contains(event.target)) {
-          return;
+            return;
         }
+
     
         this.setState({ open: false });
       };
@@ -143,12 +146,43 @@ class Jobs extends React.Component {
         this.filter(this.state.max, this.state.min, this.state.title,  this.state.description)
       };
 
-    render(){
-    const list =  this.state.jobsFilter.map(job => <CardEmprego job={job}/>)
-        return(
+    }
+
+    /* ORDENANDO OS ITENS */
+    // por valor mínimo:
+    orderByMinValue = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return a.value - b.value
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
+    // por ordem alfabética:
+    orderByTitle = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            if (a.title > b.title) { return 1 }
+            if (a.title < b.title) { return -1 }
+            return 0;
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
+    // pelo menor prazo:
+    orderByDueDate = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+    /* FIM DA ORDENAÇÃO */
+
+
+    render() {
+        const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
+        return (
             <div>
                 <Header>
-                    <Img src={logo} alt="logo"/>
+                    <Img src={logo} alt="logo" onClick={this.props.goBack} />
                     <Filter>
                         <TextField
                             type='number'
@@ -207,7 +241,7 @@ class Jobs extends React.Component {
                     <Div>
                         <Button
                             buttonRef={node => {
-                            this.anchorEl = node;
+                                this.anchorEl = node;
                             }}
                             aria-owns={this.state.open ? 'menu-list-grow' : undefined}
                             aria-haspopup="true"
@@ -216,23 +250,25 @@ class Jobs extends React.Component {
                             Ordenar
                         </Button>
                         <Popper open={this.state.open} anchorEl={this.anchorEl} transition disablePortal>
-                            {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                id="menu-list-grow"
-                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                            >
-                                <Paper>
-                                <ClickAwayListener onClickAway={this.handleClose}>
-                                    <MenuList>
-                                    <MenuItem onClick={this.handleClose}>Preço</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Nome</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Prazo</MenuItem>
-                                    </MenuList>
-                                </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                            )}
+                            {
+                                ({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        id="menu-list-grow"
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={this.handleClose}>
+                                                <MenuList>
+                                                    <MenuItem onClick={this.orderByTitle}>Nome</MenuItem>
+                                                    <MenuItem onClick={this.orderByMinValue}>Preço</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDate}>Prazo</MenuItem>
+                                                </MenuList>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )
+                            }
                         </Popper>
                     </Div>
                 </Header>

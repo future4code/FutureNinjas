@@ -16,12 +16,12 @@ const jss = create({
 })
 
 const theme = createMuiTheme({
-	palette:{
-		primary:{
-			main:'#8762D1'
+	palette: {
+		primary: {
+			main: '#8762D1'
 		},
-		secondary:{
-			main:'#868588'
+		secondary: {
+			main: '#868588'
 		}
 	}
 })

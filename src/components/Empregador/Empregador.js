@@ -3,6 +3,7 @@ import LeftMenu from '../LeftMenu'
 import OfertarVaga from '../OfertarVaga/OfertarVaga'
 import styled from 'styled-components'
 import OfertaDetalhada from './OfertaDetalhada'
+import axios from 'axios'
 
 const MainContainer = styled.div`
 	min-height: 100vh;
@@ -17,31 +18,49 @@ const MainSection = styled.div`
 
 
 class ContainerEmpregador extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-			jobSelected: {}
-        }
+	constructor(props) {
+		super(props);
+		this.state = {
+			jobSelected: {},
+			jobShown: true,
+			jobs: [],
+
+		}
 	}
-	
+
 	saveToRender = (object) => {
 		this.setState(object)
+		this.setState({ jobShown: false })
 	}
 
-    render(){
-        return(
+	getJobs = async () => {
+		const res = await axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+		this.setState({ jobs: res.data.jobs })
+	}
 
-            <MainContainer>
-				<OfertarVaga goBack={this.props.goBack} />
+	render() {
+
+		let componentOferta = ''
+
+		this.state.jobShown ?
+			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={false} /> :
+			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={true} />
+
+		console.log(componentOferta);
+
+		return (
+
+			<MainContainer>
+				<OfertarVaga getJobs={this.getJobs} goBack={this.props.goBack} />
 
 				<MainSection>
-					<LeftMenu saveToRender={this.saveToRender}/>
-					<OfertaDetalhada jobSelected={this.state.jobSelected} />
+					<LeftMenu jobs={this.state.jobs} getJobs={this.getJobs} saveToRender={this.saveToRender} />
+					{componentOferta}
 				</MainSection>
 
-            </MainContainer>
-        )
-    }
+			</MainContainer>
+		)
+	}
 }
 
 export default ContainerEmpregador;

@@ -14,7 +14,7 @@ const StyledCardHeader = styled(CardHeader)`
 `
 
 const StyledCard = styled(Card)`
-    width: 40vw;
+    width: 100%;
 `
 
 const StyledCardContent = styled(CardContent)`
