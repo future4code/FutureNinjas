@@ -33,6 +33,10 @@ class ContainerEmpregador extends React.Component {
 		this.setState({ jobShown: false })
 	}
 
+	saveToState = (object) => {
+		this.setState(object)
+	}
+
 	getJobs = async () => {
 		const res = await axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
 		this.setState({ jobs: res.data.jobs })
@@ -43,8 +47,8 @@ class ContainerEmpregador extends React.Component {
 		let componentOferta = ''
 
 		this.state.jobShown ?
-			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={false} /> :
-			componentOferta = <OfertaDetalhada jobSelected={this.state.jobSelected} showJob={true} />
+			componentOferta = <OfertaDetalhada getJobs={this.getJobs} jobSelected={this.state.jobSelected} showJob={false} /> :
+			componentOferta = <OfertaDetalhada saveToState={this.saveToState} getJobs={this.getJobs} jobSelected={this.state.jobSelected} showJob={true} />
 
 		console.log(componentOferta);
 

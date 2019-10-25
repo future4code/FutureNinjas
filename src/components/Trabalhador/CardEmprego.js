@@ -39,8 +39,20 @@ class CardEmprego extends React.Component {
         }
     }
 
-    render(){
-        return(
+
+    giveUpJob = async () => {
+        const res = await axios.put(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.job.id}/giveup`)
+        this.props.reRenderJobs()
+    }
+
+    render() {
+        let buttonTaken
+        if (this.props.job.taken) {
+            buttonTaken = <StyledFab onClick={this.giveUpJob} color="secondary" variant="extended"><Check /></StyledFab>
+        } else {
+            buttonTaken = <StyledFab onClick={this.takeJob} color="primary" variant="extended">Candidatar-se</StyledFab>
+        }
+        return (
             <StyledCard>
                 <StyledCardHeader
                  title={this.props.job.title} 
