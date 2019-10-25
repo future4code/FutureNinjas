@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CardEmprego from './Trabalhador/CardEmprego';
 import axios from 'axios';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const Header = styled.div`
     height: 8vh;
@@ -19,10 +20,10 @@ const Header = styled.div`
     background-color: #F5F5F5;
 `
 const Body = styled.div`
-    margin: 2vh;
+    margin: 1vw;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 6.3vw;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1vw;
     justify-items: center;
 `
 const Img = styled.img`
@@ -43,26 +44,30 @@ const Div = styled.div`
 `
 
 
+
 class Jobs extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            open: false,
-            max: '',
-            min: '',
-            title: '',
-            description: '',
-            jobsFilter: [],
-            jobs: []
-        };
+
+           open: false,
+           max: '',
+           min: '',
+           title: '',
+           description: '',
+           jobsFilter: [],
+           jobs:[],
+           checkedB: true,
+           checkedA: true
+        };   
     }
     componentDidMount() {
         this.getJobs()
     }
 
     getJobs = () => {
-        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs'
 
         request.then(res => {
             this.setState({
@@ -86,11 +91,20 @@ class Jobs extends React.Component {
             Min = 0
         else
             Min = Minimo
-        const jobsFilter = this.state.jobs.filter(job => Number(job.value) <= Max)
-            .filter(job => Number(job.value) >= Min)
-            .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
-            .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
-        this.setState({ jobsFilter })
+        let jobsFilter = this.state.jobs.filter(job => job.value <= Max)
+                                          .filter(job => job.value >= Min)
+                                          .filter(job => job.title.search(Title) !== -1)
+                                          .filter(job => job.description.search(Description) !== -1)
+        if(this.state.checkedA === false){
+            console.log(this.state.checkedA )
+            console.log(this.state.checkedB )
+            jobsFilter = jobsFilter.filter(job => job.taken === false)
+        }if(this.state.checkedB === false){
+            console.log(this.state.checkedA )
+            console.log(this.state.checkedB )
+            jobsFilter = jobsFilter.filter(job => job.taken === true)
+        }
+        this.setState({jobsFilter})
     }
 
     changeMax = (event) => {
@@ -121,19 +135,38 @@ class Jobs extends React.Component {
         if (this.anchorEl.contains(event.target)) {
             return;
         }
+
+    
+        this.setState({ open: false });
+      };
+      
+      handleChange = name => event => {
+        this.setState({ [name]: event.target.checked });
+        console.log(this.state.checkedA, this.state.checkedB )
+        this.filter(this.state.max, this.state.min, this.state.title,  this.state.description)
+      };
+
     }
 
     /* ORDENANDO OS ITENS */
     // por valor mínimo:
-    orderByMinValue = () => {
+    orderByValueMinFirst = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return a.value - b.value
         })
         this.setState({ jobsFilter: orderedJobs })
     }
 
-    // por ordem alfabética:
-    orderByTitle = () => {
+    // por valor máximo:
+    orderByValueMaxFirst = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return b.value - a.value
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
+    // por ordem alfabética crescente:
+    orderByTitleAtoZ = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             if (a.title > b.title) { return 1 }
             if (a.title < b.title) { return -1 }
@@ -142,14 +175,33 @@ class Jobs extends React.Component {
         this.setState({ jobsFilter: orderedJobs })
     }
 
+    // por ordem alfabética decrescente:
+    orderByTitleZtoA = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            if (a.title > b.title) { return -1 }
+            if (a.title < b.title) { return 1 }
+            return 0;
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
     // pelo menor prazo:
-    orderByDueDate = () => {
+    orderByDueDateMin = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return new Date(a.dueDate) - new Date(b.dueDate);
         })
         this.setState({ jobsFilter: orderedJobs })
     }
+
+    // pelo maior prazo:
+    orderByDueDateMax = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return new Date(b.dueDate) - new Date(a.dueDate);
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
     /* FIM DA ORDENAÇÃO */
+
 
     render() {
         const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
@@ -187,6 +239,30 @@ class Jobs extends React.Component {
                             margin="Descrição"
                             onChange={this.changeDescription}
                         />
+                        <div>    
+                            <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={this.state.checkedA}
+                                    onChange={this.handleChange('checkedA')}
+                                    value="checkedA"
+                                    color="primary"
+                                  />
+                                }
+                                label="Pegas"
+                            />
+                            <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={this.state.checkedB}
+                                    onChange={this.handleChange('checkedB')}
+                                    value="checkedB"
+                                    color="primary"
+                                  />
+                                }
+                                label="Abertas"
+                            />
+                        </div>
                     </Filter>
                     <Div>
                         <Button
@@ -210,9 +286,12 @@ class Jobs extends React.Component {
                                         <Paper>
                                             <ClickAwayListener onClickAway={this.handleClose}>
                                                 <MenuList>
-                                                    <MenuItem onClick={this.orderByTitle}>Nome</MenuItem>
-                                                    <MenuItem onClick={this.orderByMinValue}>Preço</MenuItem>
-                                                    <MenuItem onClick={this.orderByDueDate}>Prazo</MenuItem>
+                                                    <MenuItem onClick={this.orderByTitleAtoZ}>{`Nome (A 🡢 Z)`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByTitleZtoA}>{`Nome (Z 🡠 A)`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByValueMinFirst}>{`Valor crescente 🡥`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByValueMaxFirst}>{`Valor decrescente 🡦`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDateMax}>{`Maior prazo`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDateMin}>{`Menor prazo`}</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
                                         </Paper>
