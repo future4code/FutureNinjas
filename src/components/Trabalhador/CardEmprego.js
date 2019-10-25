@@ -41,14 +41,14 @@ const StyledTypography = styled(Typography)`
 
 
 class CardEmprego extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            render:""
+            render: ""
         }
     }
 
-    takeJob=async ()=>{
+    takeJob = async () => {
         const res = await axios.put(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.job.id}/take`)
         this.props.reRenderJobs()
     }
@@ -65,14 +65,14 @@ class CardEmprego extends React.Component {
         } else {
             buttonTaken = <StyledFab onClick={this.takeJob} color="primary" variant="extended">Candidatar-se</StyledFab>
         }
-        return(
+        return (
             <StyledCard>
                 <StyledCardHeader
-                 title={this.props.job.title} 
+                    title={this.props.job.title}
                 />
-                <Divider/>
+                <Divider />
                 <StyledCardContent>
-                    <StyledTypography variant='h6' align='center'>Prazo: {(Number(new Date(this.props.job.dueDate).getDate())+1) + '/' + (Number(new Date(this.props.job.dueDate).getMonth()) + 1) + '/' +  new Date(this.props.job.dueDate).getFullYear()}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Prazo: {(Number(new Date(this.props.job.dueDate).getDate()) + 1) + '/' + (Number(new Date(this.props.job.dueDate).getMonth()) + 1) + '/' + new Date(this.props.job.dueDate).getFullYear()}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Valor:  R$ {Number(this.props.job.value).toFixed(2)}</StyledTypography>

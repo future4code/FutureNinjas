@@ -103,8 +103,9 @@ class OfertarVaga extends React.Component {
 				description: this.state.descriptionValue,
 				value: Number(this.state.valueValue),
 				paymentMethods: [this.state.paymentMethodsValue],
-				dueDate: Number(this.state.dueDateValue),
+				dueDate: Number(new Date(this.state.dueDateValue)),
 			}
+			console.log(data)
 
 			const res = await axios.post('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs', data)
 			window.alert(res.data.message)
@@ -183,6 +184,7 @@ class OfertarVaga extends React.Component {
 							</Select>
 							<FormHelperText>Forma de Pagamento</FormHelperText>
 						</FormControlStyled>
+
 						<ButtonStyled variant="contained" color="primary" onClick={this.addJob} >Criar <br /> Vaga</ButtonStyled>
 
 

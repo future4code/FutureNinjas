@@ -140,49 +140,49 @@ class OfertaDetalhada extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			changeInputs:false
+			changeInputs: false
 		}
 	}
 
-	deleteJob=async ()=>{
-		if(window.confirm('Tem certeza que deseja deletar este emprego?')){
-		const res = await axios.delete(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`)
-		this.props.getJobs()
-		this.props.saveToState({jobShown: true})
+	deleteJob = async () => {
+		if (window.confirm('Tem certeza que deseja deletar este emprego?')) {
+			const res = await axios.delete(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`)
+			this.props.getJobs()
+			this.props.saveToState({ jobShown: true })
 		}
 	}
 
 
-	handleInputChange=(event)=>{
-		if(this.state.changeInputs)
-		this.props.saveToState({jobSelected:{...this.props.jobSelected,[event.target.name]:event.target.value}})
+	handleInputChange = (event) => {
+		if (this.state.changeInputs)
+			this.props.saveToState({ jobSelected: { ...this.props.jobSelected, [event.target.name]: event.target.value } })
 	}
 
-	editJob=()=>(
-		this.setState({changeInputs:true})
+	editJob = () => (
+		this.setState({ changeInputs: true })
 	)
 
-	cancelEdit=()=>{
-		
-		this.props.saveToState({jobShown: true})
-		this.setState({changeInputs:false})
+	cancelEdit = () => {
+
+		this.props.saveToState({ jobShown: true })
+		this.setState({ changeInputs: false })
 	}
 
-	saveJobEdited = async () =>{
-		if(this.props.jobSelected.taken){
+	saveJobEdited = async () => {
+		if (this.props.jobSelected.taken) {
 			window.alert('Não pode alterar um emprego que ja tem interessados.')
-		}else{
+		} else {
 			const data = {
-				value: this.props.jobSelected.value,
-				title:this.props.jobSelected.title,
-				paymentMethods:this.props.jobSelected.paymentMethods,
-				dueDate:this.props.jobSelected.dueDate,
+				value: Number(this.props.jobSelected.value),
+				title: this.props.jobSelected.title,
+				paymentMethods: this.props.jobSelected.paymentMethods,
+				dueDate: this.props.jobSelected.dueDate,
 				description: this.props.jobSelected.description
 
 			}
-			const res = await axios.patch(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`,data)
+			const res = await axios.patch(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`, data)
 			this.props.getJobs()
-			this.props.saveToState({jobShown: true})
+			this.props.saveToState({ jobShown: true })
 		}
 	}
 
@@ -198,10 +198,10 @@ class OfertaDetalhada extends React.Component {
 						title={this.props.jobSelected.title}
 						action={<HeaderIconDiv>
 							<EditStyle onClick={this.editJob} fontSize='large' />
-							<DeleteForeverIconStyle onClick={this.deleteJob} fontSize='large'/>
+							<DeleteForeverIconStyle onClick={this.deleteJob} fontSize='large' />
 						</HeaderIconDiv>}
 					/>
-					
+
 					<Divider />
 					<CardContentStyledFlex>
 
@@ -212,7 +212,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled>
-									<InputStyle name="paymentMethods" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.paymentMethods}/>
+									<InputStyle name="paymentMethods" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.paymentMethods} />
 								</CardContentStyled>
 							</TopSectionCard>
 
@@ -222,7 +222,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled color="primary">
-								<InputStyle name="value" onChange={this.handleInputChange} type="number" value={Number(this.props.jobSelected.value).toFixed(2)}/>
+									<InputStyle name="value" onChange={this.handleInputChange} type="number" value={Number(this.props.jobSelected.value).toFixed(2)} />
 								</CardContentStyled>
 							</TopSectionCard>
 
@@ -232,41 +232,41 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled>
-									<InputStyle name="dueDate" onChange={this.handleInputChange} type="date" value={new Date(this.props.jobSelected.dueDate).getFullYear() + '-' + (Number(new Date(this.props.jobSelected.dueDate).getMonth()) + 1) + '-' + (Number(new Date(this.props.jobSelected.dueDate).getDate())+1)}/>
+									<InputStyle name="dueDate" onChange={this.handleInputChange} type="date" value={new Date(this.props.jobSelected.dueDate).getFullYear() + '-' + (Number(new Date(this.props.jobSelected.dueDate).getMonth()) + 1) + '-' + (Number(new Date(this.props.jobSelected.dueDate).getDate()) + 1)} />
 								</CardContentStyled>
 							</TopSectionCard>
 						</TopSectionDiv>
 
 
 						<BottomSectionDivAll>
-						<BottomSectionDiv>
-							<BottomSectionCard>
-								<CardHeaderStyled
-									title='Descrição'
-								/>
-								<Divider />
-								<CardContentStyledBottom>
-								<InputStyle name="description" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.description}/>
-								</CardContentStyledBottom>
-							</BottomSectionCard>
-							
-						</BottomSectionDiv>
-						<ButtonDiv>
-						<StyledButton
-							variant="outlined"
-							color="primary"
-							onClick={this.cancelEdit}
-						>
-							<strong>Cancelar</strong>
-						</StyledButton>
-						<StyledButton
-							variant="outlined"
-							color="primary"
-							onClick={this.saveJobEdited}
-						>
-							<strong>Salvar</strong>
-						</StyledButton>
-						</ButtonDiv>
+							<BottomSectionDiv>
+								<BottomSectionCard>
+									<CardHeaderStyled
+										title='Descrição'
+									/>
+									<Divider />
+									<CardContentStyledBottom>
+										<InputStyle name="description" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.description} />
+									</CardContentStyledBottom>
+								</BottomSectionCard>
+
+							</BottomSectionDiv>
+							<ButtonDiv>
+								<StyledButton
+									variant="outlined"
+									color="primary"
+									onClick={this.cancelEdit}
+								>
+									<strong>Cancelar</strong>
+								</StyledButton>
+								<StyledButton
+									variant="outlined"
+									color="primary"
+									onClick={this.saveJobEdited}
+								>
+									<strong>Salvar</strong>
+								</StyledButton>
+							</ButtonDiv>
 						</BottomSectionDivAll>
 
 					</CardContentStyledFlex>
