@@ -80,7 +80,7 @@ class Jobs extends React.Component {
         })
     }
 
-    filter = (Maximo, Minimo, Title, Description,CheckedA,CheckedB) => {
+    filter = (Maximo, Minimo, Title, Description, CheckedA, CheckedB) => {
 
 
         let Max
@@ -95,8 +95,8 @@ class Jobs extends React.Component {
             Min = Minimo
         let jobsFilter = this.state.jobs.filter(job => job.value <= Max)
             .filter(job => job.value >= Min)
-            .filter(job => job.title.search(Title) !== -1)
-            .filter(job => job.description.search(Description) !== -1)
+            .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
+            .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
         if (CheckedA === false) {
             // console.log(CheckedA)
             jobsFilter = jobsFilter.filter(job => job.taken === false)
@@ -141,9 +141,9 @@ class Jobs extends React.Component {
         this.setState({ [name]: event.target.checked });
         console.log(event.target.checked)
 
-        if(name==='checkedA'){
+        if (name === 'checkedA') {
             this.filter(this.state.max, this.state.min, this.state.title, this.state.description, event.target.checked, this.state.checkedB)
-        }else{
+        } else {
             this.filter(this.state.max, this.state.min, this.state.title, this.state.description, this.state.checkedA, event.target.checked)
         }
     };
@@ -206,7 +206,7 @@ class Jobs extends React.Component {
 
     render() {
 
-  
+
 
         const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
         return (
