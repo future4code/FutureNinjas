@@ -19,10 +19,10 @@ const Header = styled.div`
     background-color: #F5F5F5;
 `
 const Body = styled.div`
-    margin: 2vh;
+    margin: 1vw;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 6.3vw;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1vw;
     justify-items: center;
 `
 const Img = styled.img`

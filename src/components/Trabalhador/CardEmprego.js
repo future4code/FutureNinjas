@@ -6,71 +6,54 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import styled from 'styled-components';
-import axios from 'axios';
-import Check from '@material-ui/icons/Check'
 
 const StyledCardHeader = styled(CardHeader)`
-    background: #8762D1;
+    background: #6700A0;
     text-align: center;
     span{color: white;}
 `
 
 const StyledCard = styled(Card)`
-    width: 40vw;
+    width: 100%;
 `
 
 const StyledCardContent = styled(CardContent)`
-    background: #b98fff;
+    background: #9B12D3;
 `
 
 const StyledFab = styled(Fab)`
-    justify-self: flex-end;
+    background: white;
 `
 
 const StyledTypography = styled(Typography)`
     color: white;
 `
 
-const Div = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-`
+
 
 class CardEmprego extends React.Component {
-    constructor(props) {
+    constructor(props){
         super(props);
         this.state = {
-            render: ""
+
         }
     }
 
-    takeJob = async () => {
-        const res = await axios.put(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.job.id}/take`)
-        this.props.reRenderJobs()
-    }
-
-    render() {
-        let buttonTaken
-        if (this.props.job.taken) {
-            buttonTaken = <StyledFab onClick={this.takeJob} color="secondary" variant="extended"><Check /></StyledFab>
-        } else {
-            buttonTaken = <StyledFab onClick={this.takeJob} color="primary" variant="extended">Candidatar-se</StyledFab>
-        }
-        return (
+    render(){
+        return(
             <StyledCard>
                 <StyledCardHeader
-                    title={this.props.job.title}
+                 title={this.props.job.title} 
                 />
-                <Divider />
+                <Divider/>
                 <StyledCardContent>
                     <StyledTypography variant='h6' align='center'>Prazo: {new Date(this.props.job.dueDate).toLocaleDateString()}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Valor:  R$ {Number(this.props.job.value).toFixed(2)}</StyledTypography>
-                    <Div>
-                        {buttonTaken}
-                    </Div>
+                    <StyledFab variant="extended">
+                        Candidatar-se
+                    </StyledFab>
                 </StyledCardContent>
             </StyledCard>
         )
