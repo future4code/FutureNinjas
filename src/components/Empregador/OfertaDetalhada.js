@@ -106,6 +106,19 @@ const StyledButton = styled(Button)`
 	}
 `
 
+const InputStyle = styled.input`
+	width:100%;
+	text-align:center;
+	border:none;
+	background:transparent;
+	color:#8762D1;
+	font-size:130%;
+	:focus{
+		outline:none;
+		
+	}
+`
+
 const BottomSectionCard = styled(Card)`
 	width: 56vw;
 `
@@ -127,6 +140,7 @@ class OfertaDetalhada extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			changeInputs:false
 		}
 	}
 
@@ -135,6 +149,40 @@ class OfertaDetalhada extends React.Component {
 		const res = await axios.delete(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`)
 		this.props.getJobs()
 		this.props.saveToState({jobShown: true})
+		}
+	}
+
+
+	handleInputChange=(event)=>{
+		if(this.state.changeInputs)
+		this.props.saveToState({jobSelected:{...this.props.jobSelected,[event.target.name]:event.target.value}})
+	}
+
+	editJob=()=>(
+		this.setState({changeInputs:true})
+	)
+
+	cancelEdit=()=>{
+		
+		this.props.saveToState({jobShown: true})
+		this.setState({changeInputs:false})
+	}
+
+	saveJobEdited = async () =>{
+		if(this.props.jobSelected.taken){
+			window.alert('Não pode alterar um emprego que ja tem interessados.')
+		}else{
+			const data = {
+				value: this.props.jobSelected.value,
+				title:this.props.jobSelected.title,
+				paymentMethods:this.props.jobSelected.paymentMethods,
+				dueDate:this.props.jobSelected.dueDate,
+				description: this.props.jobSelected.description
+
+			}
+			const res = await axios.patch(`https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs/${this.props.jobSelected.id}`,data)
+			this.props.getJobs()
+			this.props.saveToState({jobShown: true})
 		}
 	}
 
@@ -148,7 +196,10 @@ class OfertaDetalhada extends React.Component {
 				<MainCardStyled>
 					<CardHeaderStyled
 						title={this.props.jobSelected.title}
-						action={<HeaderIconDiv><EditStyle fontSize='large' /><DeleteForeverIconStyle onClick={this.deleteJob} fontSize='large'/></HeaderIconDiv>}
+						action={<HeaderIconDiv>
+							<EditStyle onClick={this.editJob} fontSize='large' />
+							<DeleteForeverIconStyle onClick={this.deleteJob} fontSize='large'/>
+						</HeaderIconDiv>}
 					/>
 					
 					<Divider />
@@ -161,7 +212,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled>
-									<TypographyStyled variant='h6' align='center'> {this.props.jobSelected.paymentMethods}</TypographyStyled>
+									<InputStyle name="paymentMethods" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.paymentMethods}/>
 								</CardContentStyled>
 							</TopSectionCard>
 
@@ -171,7 +222,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled color="primary">
-									<TypographyStyled variant='h6' align='center'>R$ {Number(this.props.jobSelected.value).toFixed(2)}</TypographyStyled>
+								<InputStyle name="value" onChange={this.handleInputChange} type="number" value={Number(this.props.jobSelected.value).toFixed(2)}/>
 								</CardContentStyled>
 							</TopSectionCard>
 
@@ -181,7 +232,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyled>
-									<TypographyStyled variant='h6' align='center'>{new Date(this.props.jobSelected.dueDate).toLocaleDateString()}</TypographyStyled>
+									<InputStyle name="dueDate" onChange={this.handleInputChange} type="date" value={new Date(this.props.jobSelected.dueDate).getFullYear() + '-' + (Number(new Date(this.props.jobSelected.dueDate).getMonth()) + 1) + '-' + (Number(new Date(this.props.jobSelected.dueDate).getDate())+1)}/>
 								</CardContentStyled>
 							</TopSectionCard>
 						</TopSectionDiv>
@@ -195,7 +246,7 @@ class OfertaDetalhada extends React.Component {
 								/>
 								<Divider />
 								<CardContentStyledBottom>
-									<TypographyStyled variant='h6' align='center'>{this.props.jobSelected.description}</TypographyStyled>
+								<InputStyle name="description" onChange={this.handleInputChange} type="text" value={this.props.jobSelected.description}/>
 								</CardContentStyledBottom>
 							</BottomSectionCard>
 							
@@ -204,12 +255,14 @@ class OfertaDetalhada extends React.Component {
 						<StyledButton
 							variant="outlined"
 							color="primary"
+							onClick={this.cancelEdit}
 						>
 							<strong>Cancelar</strong>
 						</StyledButton>
 						<StyledButton
 							variant="outlined"
 							color="primary"
+							onClick={this.saveJobEdited}
 						>
 							<strong>Salvar</strong>
 						</StyledButton>

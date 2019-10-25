@@ -291,7 +291,7 @@ class Jobs extends React.Component {
                                             <ClickAwayListener onClickAway={this.handleClose}>
                                                 <MenuListStyled>
                                                     <MenuItem onClick={this.orderByTitleAtoZ}>{`Nome (A 🡢 Z)`}</MenuItem>
-                                                    <MenuItem onClick={this.orderByTitleZtoA}>{`Nome (Z 🡠 A)`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByTitleZtoA}>{`Nome (Z 🡢 A)`}</MenuItem>
                                                     <MenuItem onClick={this.orderByValueMinFirst}>{`Valor crescente 🡥`}</MenuItem>
                                                     <MenuItem onClick={this.orderByValueMaxFirst}>{`Valor decrescente 🡦`}</MenuItem>
                                                     <MenuItem onClick={this.orderByDueDateMax}>{`Maior prazo`}</MenuItem>

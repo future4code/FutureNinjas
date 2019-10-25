@@ -24,7 +24,7 @@ class ContainerEmpregador extends React.Component {
 			jobSelected: {},
 			jobShown: true,
 			jobs: [],
-
+			
 		}
 	}
 

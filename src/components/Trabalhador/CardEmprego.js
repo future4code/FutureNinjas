@@ -72,7 +72,7 @@ class CardEmprego extends React.Component {
                 />
                 <Divider/>
                 <StyledCardContent>
-                    <StyledTypography variant='h6' align='center'>Prazo: {new Date(this.props.job.dueDate).toLocaleDateString()}</StyledTypography>
+                    <StyledTypography variant='h6' align='center'>Prazo: {(Number(new Date(this.props.job.dueDate).getDate())+1) + '/' + (Number(new Date(this.props.job.dueDate).getMonth()) + 1) + '/' +  new Date(this.props.job.dueDate).getFullYear()}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Forma de pagamento: {this.props.job.paymentMethods}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Descricao: {this.props.job.description}</StyledTypography>
                     <StyledTypography variant='h6' align='center'>Valor:  R$ {Number(this.props.job.value).toFixed(2)}</StyledTypography>

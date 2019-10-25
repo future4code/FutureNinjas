@@ -101,9 +101,9 @@ class OfertarVaga extends React.Component {
 			const data = {
 				title: this.state.titleValue,
 				description: this.state.descriptionValue,
-				value: this.state.valueValue,
+				value: Number(this.state.valueValue),
 				paymentMethods: [this.state.paymentMethodsValue],
-				dueDate: Number(new Date(this.state.dueDateValue)),
+				dueDate: Number(this.state.dueDateValue),
 			}
 
 			const res = await axios.post('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs', data)
