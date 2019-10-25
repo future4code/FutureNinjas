@@ -125,15 +125,23 @@ class Jobs extends React.Component {
 
     /* ORDENANDO OS ITENS */
     // por valor mínimo:
-    orderByMinValue = () => {
+    orderByValueMinFirst = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return a.value - b.value
         })
         this.setState({ jobsFilter: orderedJobs })
     }
 
-    // por ordem alfabética:
-    orderByTitle = () => {
+    // por valor máximo:
+    orderByValueMaxFirst = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return b.value - a.value
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
+    // por ordem alfabética crescente:
+    orderByTitleAtoZ = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             if (a.title > b.title) { return 1 }
             if (a.title < b.title) { return -1 }
@@ -142,10 +150,28 @@ class Jobs extends React.Component {
         this.setState({ jobsFilter: orderedJobs })
     }
 
+    // por ordem alfabética decrescente:
+    orderByTitleZtoA = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            if (a.title > b.title) { return -1 }
+            if (a.title < b.title) { return 1 }
+            return 0;
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
     // pelo menor prazo:
-    orderByDueDate = () => {
+    orderByDueDateMin = () => {
         const orderedJobs = this.state.jobsFilter.sort((a, b) => {
             return new Date(a.dueDate) - new Date(b.dueDate);
+        })
+        this.setState({ jobsFilter: orderedJobs })
+    }
+
+    // pelo maior prazo:
+    orderByDueDateMax = () => {
+        const orderedJobs = this.state.jobsFilter.sort((a, b) => {
+            return new Date(b.dueDate) - new Date(a.dueDate);
         })
         this.setState({ jobsFilter: orderedJobs })
     }
@@ -210,9 +236,12 @@ class Jobs extends React.Component {
                                         <Paper>
                                             <ClickAwayListener onClickAway={this.handleClose}>
                                                 <MenuList>
-                                                    <MenuItem onClick={this.orderByTitle}>Nome</MenuItem>
-                                                    <MenuItem onClick={this.orderByMinValue}>Preço</MenuItem>
-                                                    <MenuItem onClick={this.orderByDueDate}>Prazo</MenuItem>
+                                                    <MenuItem onClick={this.orderByTitleAtoZ}>{`Nome (A 🡢 Z)`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByTitleZtoA}>{`Nome (Z 🡠 A)`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByValueMinFirst}>{`Valor crescente 🡥`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByValueMaxFirst}>{`Valor decrescente 🡦`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDateMax}>{`Maior prazo`}</MenuItem>
+                                                    <MenuItem onClick={this.orderByDueDateMin}>{`Menor prazo`}</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
                                         </Paper>
