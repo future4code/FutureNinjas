@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CardEmprego from './Trabalhador/CardEmprego';
 import axios from 'axios';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const Header = styled.div`
     height: 8vh;
@@ -43,26 +44,30 @@ const Div = styled.div`
 `
 
 
+
 class Jobs extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            open: false,
-            max: '',
-            min: '',
-            title: '',
-            description: '',
-            jobsFilter: [],
-            jobs: []
-        };
+
+           open: false,
+           max: '',
+           min: '',
+           title: '',
+           description: '',
+           jobsFilter: [],
+           jobs:[],
+           checkedB: true,
+           checkedA: true
+        };   
     }
     componentDidMount() {
         this.getJobs()
     }
 
     getJobs = () => {
-        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
+        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs'
 
         request.then(res => {
             this.setState({
@@ -86,11 +91,20 @@ class Jobs extends React.Component {
             Min = 0
         else
             Min = Minimo
-        const jobsFilter = this.state.jobs.filter(job => Number(job.value) <= Max)
-            .filter(job => Number(job.value) >= Min)
-            .filter(job => job.title.toLowerCase().search(Title.toLowerCase()) !== -1)
-            .filter(job => job.description.toLowerCase().search(Description.toLowerCase()) !== -1)
-        this.setState({ jobsFilter })
+        let jobsFilter = this.state.jobs.filter(job => job.value <= Max)
+                                          .filter(job => job.value >= Min)
+                                          .filter(job => job.title.search(Title) !== -1)
+                                          .filter(job => job.description.search(Description) !== -1)
+        if(this.state.checkedA === false){
+            console.log(this.state.checkedA )
+            console.log(this.state.checkedB )
+            jobsFilter = jobsFilter.filter(job => job.taken === false)
+        }if(this.state.checkedB === false){
+            console.log(this.state.checkedA )
+            console.log(this.state.checkedB )
+            jobsFilter = jobsFilter.filter(job => job.taken === true)
+        }
+        this.setState({jobsFilter})
     }
 
     changeMax = (event) => {
@@ -121,6 +135,17 @@ class Jobs extends React.Component {
         if (this.anchorEl.contains(event.target)) {
             return;
         }
+
+    
+        this.setState({ open: false });
+      };
+      
+      handleChange = name => event => {
+        this.setState({ [name]: event.target.checked });
+        console.log(this.state.checkedA, this.state.checkedB )
+        this.filter(this.state.max, this.state.min, this.state.title,  this.state.description)
+      };
+
     }
 
     /* ORDENANDO OS ITENS */
@@ -177,6 +202,7 @@ class Jobs extends React.Component {
     }
     /* FIM DA ORDENAÇÃO */
 
+
     render() {
         const list = this.state.jobsFilter.map(job => <CardEmprego reRenderJobs={this.getJobs} job={job} />)
         return (
@@ -213,6 +239,30 @@ class Jobs extends React.Component {
                             margin="Descrição"
                             onChange={this.changeDescription}
                         />
+                        <div>    
+                            <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={this.state.checkedA}
+                                    onChange={this.handleChange('checkedA')}
+                                    value="checkedA"
+                                    color="primary"
+                                  />
+                                }
+                                label="Pegas"
+                            />
+                            <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={this.state.checkedB}
+                                    onChange={this.handleChange('checkedB')}
+                                    value="checkedB"
+                                    color="primary"
+                                  />
+                                }
+                                label="Abertas"
+                            />
+                        </div>
                     </Filter>
                     <Div>
                         <Button
