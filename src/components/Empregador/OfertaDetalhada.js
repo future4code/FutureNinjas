@@ -5,7 +5,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import styled from 'styled-components';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Edit from '@material-ui/icons/Edit';
 import logo from '../../logo_ninja.svg';
+import Button from '@material-ui/core/Button';
 
 const MainCardStyled = styled(Card)`
 	width: 80%;
@@ -15,7 +18,8 @@ const MainCardStyled = styled(Card)`
 
 const CardHeaderStyled = styled(CardHeader)`
 	background: #8762D1;
-	text-align: center;
+	display:flex;
+	align-items:center;
 	span{
 		color: white;
 		font-weight: bold;
@@ -23,27 +27,82 @@ const CardHeaderStyled = styled(CardHeader)`
 `
 
 const CardContentStyled = styled(CardContent)`
-	background: #b98fff;
+	background: white;
+
+`
+
+const CardContentStyledBottom = styled(CardContent)`
+	background: white;
+	min-height:30vh;
+`
+
+const CardContentStyledFlex = styled(CardContent)`
+	display:flex;
+	width:100%;
+	justify-content:space-evenly;
 `
 
 const TypographyStyled = styled(Typography)`
-	color: white;
+	color: #8762D1;
 `
 
 const TopSectionDiv = styled.div`
-	margin: 3%;
 	display: flex;
+	flex-direction:column;
 	justify-content: space-evenly;
+	width:30%;
+`
+
+const HeaderIconDiv = styled.div`
+	margin:0 15px;
+	margin-top:5px;
+	padding:0;
+	display:flex;
+	justify-content:center;
+	align-items:center;
 `
 
 const TopSectionCard = styled(Card)`
-	width: 15vw;
+	margin-bottom:13%;
+`
+
+const EditStyle = styled(Edit)`
+	margin-right: 10px;
+	color:white;
+	cursor:pointer;
+`
+
+const DeleteForeverIconStyle = styled(DeleteForeverIcon)`
+	color:white;
+	cursor:pointer;
 `
 
 const BottomSectionDiv = styled.div`
-	margin: 3%;
 	display: flex;
 	justify-content: center;
+
+`
+
+const BottomSectionDivAll = styled.div`
+	display: flex;
+	flex-direction:column;
+	width:60%;
+`
+
+const ButtonDiv = styled.div`
+	display: flex;
+	width:100%;
+	justify-content:center;
+`
+
+const StyledButton = styled(Button)`
+	padding: 10px 20px;
+	margin: 10% 5%;
+	background:white;
+	:hover{
+		background:#494949;
+		color:white;
+	}
 `
 
 const BottomSectionCard = styled(Card)`
@@ -80,9 +139,11 @@ class OfertaDetalhada extends React.Component {
 				<MainCardStyled>
 					<CardHeaderStyled
 						title={this.props.jobSelected.title}
+						action={<HeaderIconDiv><EditStyle fontSize='large' /><DeleteForeverIconStyle fontSize='large'/></HeaderIconDiv>}
 					/>
+					
 					<Divider />
-					<CardContent>
+					<CardContentStyledFlex>
 
 						<TopSectionDiv>
 							<TopSectionCard>
@@ -117,19 +178,36 @@ class OfertaDetalhada extends React.Component {
 						</TopSectionDiv>
 
 
+						<BottomSectionDivAll>
 						<BottomSectionDiv>
 							<BottomSectionCard>
 								<CardHeaderStyled
 									title='Descrição'
 								/>
 								<Divider />
-								<CardContentStyled>
+								<CardContentStyledBottom>
 									<TypographyStyled variant='h6' align='center'>{this.props.jobSelected.description}</TypographyStyled>
-								</CardContentStyled>
+								</CardContentStyledBottom>
 							</BottomSectionCard>
+							
 						</BottomSectionDiv>
+						<ButtonDiv>
+						<StyledButton
+							variant="outlined"
+							color="primary"
+						>
+							<strong>Cancelar</strong>
+						</StyledButton>
+						<StyledButton
+							variant="outlined"
+							color="primary"
+						>
+							<strong>Salvar</strong>
+						</StyledButton>
+						</ButtonDiv>
+						</BottomSectionDivAll>
 
-					</CardContent>
+					</CardContentStyledFlex>
 				</MainCardStyled>
 			)
 		} else {
