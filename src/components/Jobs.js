@@ -42,7 +42,9 @@ const Filter = styled.div`
 const Div = styled.div`
     margin-top: 2vh;
 `
+const MenuListStyled= styled(MenuList)`
 
+`
 
 
 class Jobs extends React.Component {
@@ -67,7 +69,7 @@ class Jobs extends React.Component {
     }
 
     getJobs = () => {
-        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs'
+        const request = axios.get('https://us-central1-missao-newton.cloudfunctions.net/futureNinjas/jobs')
 
         request.then(res => {
             this.setState({
@@ -146,7 +148,6 @@ class Jobs extends React.Component {
         this.filter(this.state.max, this.state.min, this.state.title,  this.state.description)
       };
 
-    }
 
     /* ORDENANDO OS ITENS */
     // por valor mínimo:
@@ -283,16 +284,16 @@ class Jobs extends React.Component {
                                         id="menu-list-grow"
                                         style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                     >
-                                        <Paper>
+                                        <Paper >
                                             <ClickAwayListener onClickAway={this.handleClose}>
-                                                <MenuList>
+                                                <MenuListStyled>
                                                     <MenuItem onClick={this.orderByTitleAtoZ}>{`Nome (A 🡢 Z)`}</MenuItem>
                                                     <MenuItem onClick={this.orderByTitleZtoA}>{`Nome (Z 🡠 A)`}</MenuItem>
                                                     <MenuItem onClick={this.orderByValueMinFirst}>{`Valor crescente 🡥`}</MenuItem>
                                                     <MenuItem onClick={this.orderByValueMaxFirst}>{`Valor decrescente 🡦`}</MenuItem>
                                                     <MenuItem onClick={this.orderByDueDateMax}>{`Maior prazo`}</MenuItem>
                                                     <MenuItem onClick={this.orderByDueDateMin}>{`Menor prazo`}</MenuItem>
-                                                </MenuList>
+                                                </MenuListStyled>
                                             </ClickAwayListener>
                                         </Paper>
                                     </Grow>
